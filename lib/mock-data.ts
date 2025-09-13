@@ -29,7 +29,7 @@ export interface Feedback {
 export const mockUsers: User[] = [
   {
     id: "1",
-    name: "Ishita Dasgupta",
+    name: "Ishi11",
     email: "ishita@university.edu",
     college: "Heritage",
     location: "Kolkata",
@@ -40,7 +40,7 @@ export const mockUsers: User[] = [
   },
   {
     id: "2",
-    name: "Arjun Singh Rathore",
+    name: "Aj07",
     email: "arjun@university.edu",
     college: "MSIT",
     location: "kolkata",
@@ -50,7 +50,7 @@ export const mockUsers: User[] = [
   },
   {
     id: "3",
-    name: "Priya Nair",
+    name: "Prizz",
     email: "priya@university.edu",
     college: "MSIT",
     location: "Kolkata",
@@ -61,7 +61,7 @@ export const mockUsers: User[] = [
   },
   {
     id: "4",
-    name: "Vivek Sharma",
+    name: "Viking12",
     email: "vivek@university.edu",
     college: "Asansol Engineering College",
     location: "Asansol",
@@ -72,7 +72,7 @@ export const mockUsers: User[] = [
   },
   {
     id: "5",
-    name: "Aditya Banerjee",
+    name: "Adi99",
     email: "aditya@university.edu",
     college: "MSIT",
     location: "Kolkata",
@@ -86,7 +86,7 @@ export const mockFeedback: Feedback[] = [
   {
     id: "1",
     userId: "1",
-    userName: "Rohan Malhotra",
+    userName: "Rotzz",
     rating: 5,
     comments: "The counseling sessions have been incredibly helpful. I feel much more supported.",
     date: "2024-01-15",
@@ -95,7 +95,7 @@ export const mockFeedback: Feedback[] = [
   {
     id: "2",
     userId: "3",
-    userName: "Karthik Reddy",
+    userName: "Kk34",
     rating: 4,
     comments: "Good support system, though I wish there were more available time slots.",
     date: "2024-01-20",
@@ -104,7 +104,7 @@ export const mockFeedback: Feedback[] = [
   {
     id: "3",
     userId: "4",
-    userName: "Meera Choudhary",
+    userName: "Mixxi",
     rating: 3,
     comments: "The sessions are okay, but I feel like I need more personalized attention.",
     date: "2024-01-18",
@@ -113,7 +113,7 @@ export const mockFeedback: Feedback[] = [
   {
     id: "4",
     userId: "2",
-    userName: "Ananya Iyer",
+    userName: "nancy01",
     rating: 2,
     comments: "I tried a session but it did not feel like the right fit for me.",
     date: "2024-01-10",
