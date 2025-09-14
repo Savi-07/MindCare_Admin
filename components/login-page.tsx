@@ -4,12 +4,14 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
+import { Select } from '@/components/ui/select'
 import { useAuth } from './auth-context'
-import { Lock, User, Eye, EyeOff, Shield } from 'lucide-react'
+import { Lock, User, Eye, EyeOff, Shield, ChevronDown } from 'lucide-react'
 
 export function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [userRole, setUserRole] = useState<'admin' | 'counselor'>('admin')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -22,11 +24,16 @@ export function LoginPage() {
 
     // Simulate a small delay for better UX
     setTimeout(() => {
-      const success = login(username, password)
+      const success = login(username, password, userRole)
       if (!success) {
-        setError('Invalid username or password')
+        setError('Invalid username, password, or role combination')
+        setIsLoading(false)
+      } else {
+        // Keep loading state for a bit longer to ensure smooth transition
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 200)
       }
-      setIsLoading(false)
     }, 500)
   }
 
@@ -43,12 +50,28 @@ export function LoginPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mb-4">
             <Shield className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Admin Panel</h1>
-          <p className="text-gray-300">Sign in to access the dashboard</p>
+          <h1 className="text-3xl font-bold text-white mb-2">MindCare Portal</h1>
+          <p className="text-gray-300">Sign in to access your dashboard</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
+            {/* Role Selection */}
+            <div className="relative">
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5">
+                <Shield className="w-5 h-5" />
+              </div>
+              <select
+                value={userRole}
+                onChange={(e) => setUserRole(e.target.value as 'admin' | 'counselor')}
+                className="w-full pl-10 pr-10 py-3 bg-white/10 border border-white/20 text-white rounded-lg focus:border-purple-400 focus:ring-purple-400 focus:outline-none appearance-none"
+              >
+                <option value="admin" className="bg-slate-800 text-white">Admin</option>
+                <option value="counselor" className="bg-slate-800 text-white">Counselor</option>
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+            </div>
+
             <div className="relative">
               <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Input
@@ -106,9 +129,14 @@ export function LoginPage() {
         <div className="mt-8 text-center">
           <div className="text-sm text-gray-400">
             <p className="mb-2">Default credentials:</p>
-            <p className="font-mono bg-black/20 px-3 py-1 rounded text-purple-300">
-              Username: admin | Password: admin
-            </p>
+            <div className="space-y-2">
+              <p className="font-mono bg-black/20 px-3 py-1 rounded text-purple-300">
+                Admin: admin | admin
+              </p>
+              <p className="font-mono bg-black/20 px-3 py-1 rounded text-blue-300">
+                Counselor: counselor | counselor
+              </p>
+            </div>
           </div>
         </div>
       </Card>

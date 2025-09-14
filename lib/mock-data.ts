@@ -121,6 +121,152 @@ export const mockFeedback: Feedback[] = [
   },
 ]
 
+export interface AnonymousStudent {
+  id: string
+  anonymousId: string
+  yearOfStudy: number
+  traits: string[]
+  lastSessionDate: string
+  improvementScore: number
+  counselorId: string
+}
+
+export interface CounselingQueue {
+  id: string
+  queueNo: number
+  anonymousId: string
+  reason: string
+  requestedDate: string
+  priority: 'low' | 'medium' | 'high'
+}
+
+export interface TraitProgress {
+  studentId: string
+  trait: string
+  year1: number
+  year2: number
+  year3: number
+  year4: number
+}
+
+export const mockAnonymousStudents: AnonymousStudent[] = [
+  {
+    id: "1",
+    anonymousId: "STU001",
+    yearOfStudy: 2,
+    traits: ["Anxiety", "Stress Management"],
+    lastSessionDate: "2024-01-15",
+    improvementScore: 75,
+    counselorId: "counselor1"
+  },
+  {
+    id: "2",
+    anonymousId: "STU002",
+    yearOfStudy: 3,
+    traits: ["Depression", "Academic Pressure"],
+    lastSessionDate: "2024-01-20",
+    improvementScore: 68,
+    counselorId: "counselor1"
+  },
+  {
+    id: "3",
+    anonymousId: "STU003",
+    yearOfStudy: 1,
+    traits: ["Social Anxiety", "Time Management"],
+    lastSessionDate: "2024-01-18",
+    improvementScore: 82,
+    counselorId: "counselor1"
+  },
+  {
+    id: "4",
+    anonymousId: "STU004",
+    yearOfStudy: 4,
+    traits: ["Career Anxiety", "Relationship Issues"],
+    lastSessionDate: "2024-01-22",
+    improvementScore: 71,
+    counselorId: "counselor1"
+  },
+  {
+    id: "5",
+    anonymousId: "STU005",
+    yearOfStudy: 2,
+    traits: ["Sleep Issues", "Motivation"],
+    lastSessionDate: "2024-01-19",
+    improvementScore: 65,
+    counselorId: "counselor1"
+  }
+]
+
+export const mockCounselingQueue: CounselingQueue[] = [
+  {
+    id: "1",
+    queueNo: 1,
+    anonymousId: "STU006",
+    reason: "Academic stress",
+    requestedDate: "2024-01-23",
+    priority: "high"
+  },
+  {
+    id: "2",
+    queueNo: 2,
+    anonymousId: "STU007",
+    reason: "Relationship counseling",
+    requestedDate: "2024-01-23",
+    priority: "medium"
+  },
+  {
+    id: "3",
+    queueNo: 3,
+    anonymousId: "STU008",
+    reason: "Career guidance",
+    requestedDate: "2024-01-24",
+    priority: "low"
+  },
+  {
+    id: "4",
+    queueNo: 4,
+    anonymousId: "STU009",
+    reason: "Anxiety management",
+    requestedDate: "2024-01-24",
+    priority: "high"
+  }
+]
+
+export const mockTraitProgress: TraitProgress[] = [
+  {
+    studentId: "STU001",
+    trait: "Anxiety",
+    year1: 8,
+    year2: 6,
+    year3: 4,
+    year4: 3
+  },
+  {
+    studentId: "STU001",
+    trait: "Stress Management",
+    year1: 7,
+    year2: 5,
+    year3: 3,
+    year4: 2
+  },
+  {
+    studentId: "STU002",
+    trait: "Depression",
+    year1: 9,
+    year2: 7,
+    year3: 5,
+    year4: 4
+  },
+  {
+    studentId: "STU002",
+    trait: "Academic Pressure",
+    year1: 8,
+    year2: 6,
+    year3: 4,
+    year4: 3
+  }
+]
+
 export const mockAnalytics = {
   usersByCollege: [
     { college: "MSIT", users: 45, counseling: 28 },
@@ -148,4 +294,30 @@ export const mockAnalytics = {
     { month: "Dec", cases: 4 },
     { month: "Jan", cases: 3 },
   ],
+  // Counselor-specific analytics
+  counselorStats: {
+    totalStudentsTreated: 156,
+    activeStudents: 23,
+    studentsInQueue: 4,
+    averageImprovementScore: 72.5
+  },
+  studentsByYear: [
+    { year: "1st Year", count: 8 },
+    { year: "2nd Year", count: 12 },
+    { year: "3rd Year", count: 15 },
+    { year: "4th Year", count: 9 }
+  ],
+  commonIssues: [
+    { issue: "Academic Stress", count: 18 },
+    { issue: "Anxiety", count: 15 },
+    { issue: "Depression", count: 12 },
+    { issue: "Relationship Issues", count: 8 },
+    { issue: "Career Anxiety", count: 6 }
+  ],
+  counselorEffectiveness: [
+    { year: "2021", improvementRate: 65 },
+    { year: "2022", improvementRate: 72 },
+    { year: "2023", improvementRate: 78 },
+    { year: "2024", improvementRate: 82 }
+  ]
 }

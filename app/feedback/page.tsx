@@ -1,13 +1,13 @@
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { FeedbackPage } from "@/components/feedback-page"
-import { ProtectedRoute } from "@/components/protected-route"
+import { RoleBasedRoute } from "@/components/role-based-route"
 
 export default function Feedback() {
   return (
-    <ProtectedRoute>
+    <RoleBasedRoute allowedRoles={['admin']}>
       <DashboardLayout>
         <FeedbackPage />
       </DashboardLayout>
-    </ProtectedRoute>
+    </RoleBasedRoute>
   )
 }

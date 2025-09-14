@@ -1,13 +1,13 @@
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { OverviewPage } from "@/components/overview-page"
-import { ProtectedRoute } from "@/components/protected-route"
+import { RoleBasedRoute } from "@/components/role-based-route"
 
 export default function HomePage() {
   return (
-    <ProtectedRoute>
+    <RoleBasedRoute allowedRoles={['admin']}>
       <DashboardLayout>
         <OverviewPage />
       </DashboardLayout>
-    </ProtectedRoute>
+    </RoleBasedRoute>
   )
 }

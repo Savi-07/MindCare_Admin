@@ -1,13 +1,13 @@
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { FlaggedUsersPage } from "@/components/flagged-users-page"
-import { ProtectedRoute } from "@/components/protected-route"
+import { RoleBasedRoute } from "@/components/role-based-route"
 
 export default function FlaggedUsers() {
   return (
-    <ProtectedRoute>
+    <RoleBasedRoute allowedRoles={['admin']}>
       <DashboardLayout>
         <FlaggedUsersPage />
       </DashboardLayout>
-    </ProtectedRoute>
+    </RoleBasedRoute>
   )
 }
