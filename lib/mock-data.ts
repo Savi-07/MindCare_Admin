@@ -131,7 +131,7 @@ export interface AnonymousStudent {
   counselorId: string
 }
 
-export interface CounselingQueue {
+export interface CounsellingQueue {
   id: string
   queueNo: number
   anonymousId: string
@@ -197,7 +197,7 @@ export const mockAnonymousStudents: AnonymousStudent[] = [
   }
 ]
 
-export const mockCounselingQueue: CounselingQueue[] = [
+export const mockCounsellingQueue: CounsellingQueue[] = [
   {
     id: "1",
     queueNo: 1,
@@ -294,8 +294,8 @@ export const mockAnalytics = {
     { month: "Dec", cases: 4 },
     { month: "Jan", cases: 3 },
   ],
-  // Counselor-specific analytics
-  counselorStats: {
+  // Counsellor-specific analytics
+  counsellorStats: {
     totalStudentsTreated: 156,
     activeStudents: 23,
     studentsInQueue: 4,
@@ -314,7 +314,7 @@ export const mockAnalytics = {
     { issue: "Relationship Issues", count: 8 },
     { issue: "Career Anxiety", count: 6 }
   ],
-  counselorEffectiveness: [
+  counsellorEffectiveness: [
     { year: "2021", improvementRate: 65 },
     { year: "2022", improvementRate: 72 },
     { year: "2023", improvementRate: 78 },

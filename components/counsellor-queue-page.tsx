@@ -5,10 +5,10 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Clock, AlertCircle, CheckCircle, User, Calendar, MessageSquare } from 'lucide-react'
-import { mockCounselingQueue } from '@/lib/mock-data'
+import { mockCounsellingQueue } from '@/lib/mock-data'
 
-export function CounselorQueuePage() {
-  const [queueItems, setQueueItems] = useState(mockCounselingQueue)
+export function CounsellorQueuePage() {
+  const [queueItems, setQueueItems] = useState(mockCounsellingQueue)
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
 
   const getPriorityColor = (priority: string) => {
@@ -63,8 +63,8 @@ export function CounselorQueuePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Counseling Queue</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-2">Manage student counseling requests and session scheduling.</p>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Counselling Queue</h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-2">Manage student counselling requests and session scheduling.</p>
         </div>
         <div className="flex gap-2">
           <Badge variant="destructive" className="flex items-center gap-1">

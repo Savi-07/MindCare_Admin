@@ -8,8 +8,8 @@ import { AuthProvider } from "@/components/auth-context"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "MindCare Portal - Admin & Counselor Dashboard",
-  description: "Mental health counseling administration and counselor management platform",
+  title: "MindCare Portal - Admin & Counsellor Dashboard",
+  description: "Mental health counselling administration and counsellor management platform",
   generator: "v0.app",
 }
 

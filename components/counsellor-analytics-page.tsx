@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { TrendingUp, Users, Calendar, Award, BarChart3, Eye, Filter, Search, X, AlertTriangle, Clock, CheckCircle } from 'lucide-react'
 import { mockAnonymousStudents, mockTraitProgress } from '@/lib/mock-data'
 
-export function CounselorAnalyticsPage() {
+export function CounsellorAnalyticsPage() {
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null)
   const [filterYear, setFilterYear] = useState<string>('all')
   

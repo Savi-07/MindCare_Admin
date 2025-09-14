@@ -6,13 +6,13 @@ import { Badge } from '@/components/ui/badge'
 import { Users, Clock, TrendingUp, Heart } from 'lucide-react'
 import { mockAnalytics } from '@/lib/mock-data'
 
-export function CounselorOverviewPage() {
-  const { counselorStats } = mockAnalytics
+export function CounsellorOverviewPage() {
+  const { counsellorStats } = mockAnalytics
 
   const statsCards = [
     {
       title: "Students Treated",
-      value: counselorStats.totalStudentsTreated,
+      value: counsellorStats.totalStudentsTreated,
       icon: Users,
       color: "text-blue-600",
       bgColor: "bg-blue-50",
@@ -20,7 +20,7 @@ export function CounselorOverviewPage() {
     },
     {
       title: "Active Students",
-      value: counselorStats.activeStudents,
+      value: counsellorStats.activeStudents,
       icon: Heart,
       color: "text-green-600",
       bgColor: "bg-green-50",
@@ -28,7 +28,7 @@ export function CounselorOverviewPage() {
     },
     {
       title: "Waiting in Queue",
-      value: counselorStats.studentsInQueue,
+      value: counsellorStats.studentsInQueue,
       icon: Clock,
       color: "text-orange-600",
       bgColor: "bg-orange-50",
@@ -36,7 +36,7 @@ export function CounselorOverviewPage() {
     },
     {
       title: "Avg. Improvement",
-      value: `${counselorStats.averageImprovementScore}%`,
+      value: `${counsellorStats.averageImprovementScore}%`,
       icon: TrendingUp,
       color: "text-purple-600",
       bgColor: "bg-purple-50",
@@ -49,11 +49,11 @@ export function CounselorOverviewPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Counselor Dashboard</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-2">Welcome back! Here's your counseling overview.</p>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Counsellor Dashboard</h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-2">Welcome back! Here's your counselling overview.</p>
         </div>
         <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-          Active Counselor
+          Active Counsellor
         </Badge>
       </div>
 
@@ -106,7 +106,7 @@ export function CounselorOverviewPage() {
         <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Counseling Queue</h3>
-            <Badge variant="destructive">{counselorStats.studentsInQueue} waiting</Badge>
+            <Badge variant="destructive">{counsellorStats.studentsInQueue} waiting</Badge>
           </div>
           <div className="space-y-3">
             {[

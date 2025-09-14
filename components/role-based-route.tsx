@@ -7,7 +7,7 @@ import { LoginPage } from './login-page'
 
 interface RoleBasedRouteProps {
   children: React.ReactNode
-  allowedRoles?: ('admin' | 'counselor')[]
+  allowedRoles?: ('admin' | 'counsellor')[]
 }
 
 export function RoleBasedRoute({ children, allowedRoles }: RoleBasedRouteProps) {
@@ -19,8 +19,8 @@ export function RoleBasedRoute({ children, allowedRoles }: RoleBasedRouteProps) 
       // Redirect to appropriate dashboard based on role
       if (userRole === 'admin' && !window.location.pathname.startsWith('/') && window.location.pathname !== '/') {
         router.push('/')
-      } else if (userRole === 'counselor' && !window.location.pathname.startsWith('/counselor')) {
-        router.push('/counselor')
+      } else if (userRole === 'counsellor' && !window.location.pathname.startsWith('/counsellor')) {
+        router.push('/counsellor')
       }
     }
   }, [isAuthenticated, userRole, isLoading, router])
@@ -53,13 +53,13 @@ export function RoleBasedRoute({ children, allowedRoles }: RoleBasedRouteProps) 
           </div>
         </div>
       )
-    } else if (userRole === 'counselor') {
-      router.push('/counselor')
+    } else if (userRole === 'counsellor') {
+      router.push('/counsellor')
       return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-green-500/30 border-t-green-500 rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-white text-lg">Redirecting to Counselor Dashboard...</p>
+            <p className="text-white text-lg">Redirecting to Counsellor Dashboard...</p>
           </div>
         </div>
       )

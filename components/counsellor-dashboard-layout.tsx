@@ -10,18 +10,18 @@ import { Button } from "@/components/ui/button"
 import { LayoutDashboard, Users, Clock, BarChart3, Menu, X, Bell, Search, User, LogOut, Heart } from "lucide-react"
 import { useAuth } from "./auth-context"
 
-const counselorNavigation = [
-  { name: "Overview", href: "/counselor", icon: LayoutDashboard },
-  { name: "Students", href: "/counselor/students", icon: Users },
-  { name: "Queue", href: "/counselor/queue", icon: Clock },
-  { name: "Analytics", href: "/counselor/analytics", icon: BarChart3 },
+const counsellorNavigation = [
+  { name: "Overview", href: "/counsellor", icon: LayoutDashboard },
+  { name: "Students", href: "/counsellor/students", icon: Users },
+  { name: "Queue", href: "/counsellor/queue", icon: Clock },
+  { name: "Analytics", href: "/counsellor/analytics", icon: BarChart3 },
 ]
 
-interface CounselorDashboardLayoutProps {
+interface CounsellorDashboardLayoutProps {
   children: React.ReactNode
 }
 
-export function CounselorDashboardLayout({ children }: CounselorDashboardLayoutProps) {
+export function CounsellorDashboardLayout({ children }: CounsellorDashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const pathname = usePathname()
   const { logout } = useAuth()
@@ -47,7 +47,7 @@ export function CounselorDashboardLayout({ children }: CounselorDashboardLayoutP
               <div className="p-2 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg">
                 <Heart className="h-6 w-6 text-white" />
               </div>
-              <h1 className="text-xl font-bold text-white">Counselor Portal</h1>
+              <h1 className="text-xl font-bold text-white">Counsellor Portal</h1>
             </div>
             <Button variant="ghost" size="sm" className="lg:hidden text-white hover:bg-green-700" onClick={() => setSidebarOpen(false)}>
               <X className="h-5 w-5" />
@@ -56,7 +56,7 @@ export function CounselorDashboardLayout({ children }: CounselorDashboardLayoutP
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-2">
-            {counselorNavigation.map((item) => {
+            {counsellorNavigation.map((item) => {
               const isActive = pathname === item.href
               return (
                 <Link

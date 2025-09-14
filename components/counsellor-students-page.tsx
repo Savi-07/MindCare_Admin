@@ -8,7 +8,7 @@ import { Select } from '@/components/ui/select'
 import { Users, Calendar, TrendingUp, Eye } from 'lucide-react'
 import { mockAnonymousStudents, mockTraitProgress } from '@/lib/mock-data'
 
-export function CounselorStudentsPage() {
+export function CounsellorStudentsPage() {
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null)
   const [selectedTrait, setSelectedTrait] = useState<string>('Anxiety')
 
@@ -37,7 +37,7 @@ export function CounselorStudentsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Student Progress</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-2">Track anonymous student progress and trait development.</p>
+          <p className="text-slate-600 dark:text-slate-400 mt-2">Track anonymous student progress and counselling sessions.</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm">

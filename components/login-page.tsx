@@ -11,7 +11,7 @@ import { Lock, User, Eye, EyeOff, Shield, ChevronDown } from 'lucide-react'
 export function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [userRole, setUserRole] = useState<'admin' | 'counselor'>('admin')
+  const [userRole, setUserRole] = useState<'admin' | 'counsellor'>('admin')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -63,11 +63,11 @@ export function LoginPage() {
               </div>
               <select
                 value={userRole}
-                onChange={(e) => setUserRole(e.target.value as 'admin' | 'counselor')}
+                onChange={(e) => setUserRole(e.target.value as 'admin' | 'counsellor')}
                 className="w-full pl-10 pr-10 py-3 bg-white/10 border border-white/20 text-white rounded-lg focus:border-purple-400 focus:ring-purple-400 focus:outline-none appearance-none"
               >
                 <option value="admin" className="bg-slate-800 text-white">Admin</option>
-                <option value="counselor" className="bg-slate-800 text-white">Counselor</option>
+                <option value="counsellor" className="bg-slate-800 text-white">Counsellor</option>
               </select>
               <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
             </div>
@@ -134,7 +134,7 @@ export function LoginPage() {
                 Admin: admin | admin
               </p>
               <p className="font-mono bg-black/20 px-3 py-1 rounded text-blue-300">
-                Counselor: counselor | counselor
+                Counsellor: counsellor | counsellor
               </p>
             </div>
           </div>
