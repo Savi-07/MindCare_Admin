@@ -1,41 +1,56 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card } from '@/components/ui/card'
-import { Select } from '@/components/ui/select'
-import { useAuth } from './auth-context'
-import { Lock, User, Eye, EyeOff, Shield, ChevronDown } from 'lucide-react'
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { useAuth } from "./auth-context";
+import {
+  Lock,
+  User,
+  Eye,
+  EyeOff,
+  Shield,
+  ChevronDown,
+  Calendar,
+} from "lucide-react";
 
 export function LoginPage() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [userRole, setUserRole] = useState<'admin' | 'counsellor'>('admin')
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const { login } = useAuth()
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [userRole, setUserRole] = useState<
+    "admin" | "counsellor" | "collegeRep"
+  >("admin");
+  const [college, setCollege] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    setIsLoading(true)
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
 
     // Simulate a small delay for better UX
     setTimeout(() => {
-      const success = login(username, password, userRole)
+      const success = login(
+        username,
+        password,
+        userRole,
+        userRole === "collegeRep" ? college : undefined
+      );
       if (!success) {
-        setError('Invalid username, password, or role combination')
-        setIsLoading(false)
+        setError("Invalid username, password, or role combination");
+        setIsLoading(false);
       } else {
         // Keep loading state for a bit longer to ensure smooth transition
         setTimeout(() => {
-          setIsLoading(false)
-        }, 200)
+          setIsLoading(false);
+        }, 200);
       }
-    }, 500)
-  }
+    }, 500);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
@@ -50,7 +65,9 @@ export function LoginPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mb-4">
             <Shield className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">MindCare Portal</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">
+            MindCare Portal
+          </h1>
           <p className="text-gray-300">Sign in to access your dashboard</p>
         </div>
 
@@ -63,14 +80,96 @@ export function LoginPage() {
               </div>
               <select
                 value={userRole}
-                onChange={(e) => setUserRole(e.target.value as 'admin' | 'counsellor')}
+                onChange={(e) =>
+                  setUserRole(
+                    e.target.value as "admin" | "counsellor" | "collegeRep"
+                  )
+                }
                 className="w-full pl-10 pr-10 py-3 bg-white/10 border border-white/20 text-white rounded-lg focus:border-purple-400 focus:ring-purple-400 focus:outline-none appearance-none"
               >
-                <option value="admin" className="bg-slate-800 text-white">Admin</option>
-                <option value="counsellor" className="bg-slate-800 text-white">Counsellor</option>
+                <option value="admin" className="bg-slate-800 text-white">
+                  Admin
+                </option>
+                <option value="counsellor" className="bg-slate-800 text-white">
+                  Counsellor
+                </option>
+                <option value="collegeRep" className="bg-slate-800 text-white">
+                  College Representative
+                </option>
               </select>
               <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
             </div>
+
+            {userRole === "collegeRep" && (
+              <div className="relative">
+                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <select
+                  value={college}
+                  onChange={(e) => setCollege(e.target.value)}
+                  className="w-full pl-10 pr-10 py-3 bg-white/10 border border-white/20 text-white rounded-lg focus:border-purple-400 focus:ring-purple-400 focus:outline-none appearance-none"
+                  required
+                >
+                  <option value="" className="bg-slate-800 text-white">
+                    Select College
+                  </option>
+                  <option
+                    value="University of Delhi"
+                    className="bg-slate-800 text-white"
+                  >
+                    University of Delhi
+                  </option>
+                  <option
+                    value="Jawaharlal Nehru University"
+                    className="bg-slate-800 text-white"
+                  >
+                    Jawaharlal Nehru University
+                  </option>
+                  <option
+                    value="Indian Institute of Technology Delhi"
+                    className="bg-slate-800 text-white"
+                  >
+                    Indian Institute of Technology Delhi
+                  </option>
+                  <option
+                    value="Jamia Millia Islamia"
+                    className="bg-slate-800 text-white"
+                  >
+                    Jamia Millia Islamia
+                  </option>
+                  <option
+                    value="Guru Gobind Singh Indraprastha University"
+                    className="bg-slate-800 text-white"
+                  >
+                    Guru Gobind Singh Indraprastha University
+                  </option>
+                  <option
+                    value="Ambedkar University Delhi"
+                    className="bg-slate-800 text-white"
+                  >
+                    Ambedkar University Delhi
+                  </option>
+                  <option
+                    value="Delhi Technological University"
+                    className="bg-slate-800 text-white"
+                  >
+                    Delhi Technological University
+                  </option>
+                  <option
+                    value="Netaji Subhas University of Technology"
+                    className="bg-slate-800 text-white"
+                  >
+                    Netaji Subhas University of Technology
+                  </option>
+                  <option
+                    value="Meghnad Saha Institute of Technology"
+                    className="bg-slate-800 text-white"
+                  >
+                    Meghnad Saha Institute of Technology
+                  </option>
+                </select>
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+              </div>
+            )}
 
             <div className="relative">
               <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -87,7 +186,7 @@ export function LoginPage() {
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -99,7 +198,11 @@ export function LoginPage() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
           </div>
@@ -121,7 +224,7 @@ export function LoginPage() {
                 Signing in...
               </div>
             ) : (
-              'Sign In'
+              "Sign In"
             )}
           </Button>
         </form>
@@ -136,10 +239,13 @@ export function LoginPage() {
               <p className="font-mono bg-black/20 px-3 py-1 rounded text-blue-300">
                 Counsellor: counsellor | counsellor
               </p>
+              <p className="font-mono bg-black/20 px-3 py-1 rounded text-green-300">
+                College Rep: collegeRep | collegeRep
+              </p>
             </div>
           </div>
         </div>
       </Card>
     </div>
-  )
+  );
 }
