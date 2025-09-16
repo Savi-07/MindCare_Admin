@@ -66,6 +66,16 @@ export function OverviewPage() {
   const handleCollegeClick = (college: string) => {
     setSelectedCollege(college);
   };
+    const getRiskColor = (riskLevel: string) => {
+      switch (riskLevel) {
+        case "high":
+          return "text-red-600";
+        case "medium":
+          return "text-yellow-600";
+        default:
+          return "text-green-600";
+      }
+    };
 
   return (
     <div className="space-y-8">
@@ -291,7 +301,8 @@ export function OverviewPage() {
               return (
                 <button
                   key={college.college}
-                  className={`space-y-3 w-full text-left focus:outline-none ${selectedCollege === college.college ? 'ring-2 ring-blue-500' : ''}`}
+                  className={`space-y-3 w-full text-left focus:outline-none hover: cursor-pointer
+                     ${selectedCollege === college.college ? 'ring-2 ring-green-500' : ''}`}
                   onClick={() => handleCollegeClick(college.college)}
                 >
                   <div className="flex justify-between items-center">
@@ -357,7 +368,7 @@ export function OverviewPage() {
                       <td className="p-2 border">{u.name}</td>
                       <td className="p-2 border">{u.email}</td>
                       <td className="p-2 border">{u.yearOfStudy ?? '-'}</td>
-                      <td className="p-2 border">{u.riskLevel}</td>
+                      <td className={`p-2 border ${getRiskColor(u.riskLevel)}`}>{u.riskLevel}</td>
                     </tr>
                   ))}
                 </tbody>
