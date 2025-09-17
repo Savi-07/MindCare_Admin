@@ -13,7 +13,7 @@ import { useAuth } from "./auth-context"
 const counsellorNavigation = [
   { name: "Overview", href: "/counsellor", icon: LayoutDashboard },
   { name: "Students", href: "/counsellor/students", icon: Users },
-  { name: "Queue", href: "/counsellor/queue", icon: Clock },
+  { name: "Sessions", href: "/counsellor/sessions", icon: Clock },
   { name: "Analytics", href: "/counsellor/analytics", icon: BarChart3 },
 ]
 

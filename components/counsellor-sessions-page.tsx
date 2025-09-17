@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { mockCounsellingQueue } from "@/lib/mock-data";
 
-export function CounsellorQueuePage() {
+export function CounsellorSessionsPage() {
   const [queueItems, setQueueItems] = useState(mockCounsellingQueue);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [rescheduleAt, setRescheduleAt] = useState<string>("");
@@ -100,7 +100,7 @@ export function CounsellorQueuePage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
-            Counselling Queue
+            Counselling Sessions
           </h1>
           <p className="text-slate-600 dark:text-slate-400 mt-2">
             Manage student counselling requests and session scheduling.
