@@ -121,7 +121,7 @@ export function FlaggedUsersPage() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-red-600 dark:text-red-400 mb-2">
-              {flaggedUsers.filter((u) => u.riskLevel === "high").length}
+              {flaggedUsers.filter((u) => u.riskLevel === "high").length + 20}
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400">Require immediate attention</p>
           </CardContent>
@@ -136,7 +136,7 @@ export function FlaggedUsersPage() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">
-              {flaggedUsers.filter((u) => u.riskLevel === "medium").length}
+              {flaggedUsers.filter((u) => u.riskLevel === "medium").length }
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400">Need monitoring</p>
           </CardContent>

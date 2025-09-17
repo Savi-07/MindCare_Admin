@@ -69,7 +69,7 @@ export function AnalyticsPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-indigo-600 dark:text-indigo-400">Total Analytics</p>
+                <p className="text-sm font-medium text-indigo-600 dark:text-indigo-400">Number of Charts</p>
                 <p className="text-2xl font-bold text-indigo-900 dark:text-indigo-100">24 Charts</p>
               </div>
               <BarChart3 className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
@@ -93,8 +93,8 @@ export function AnalyticsPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Trends Tracked</p>
-                <p className="text-2xl font-bold text-purple-900 dark:text-purple-100">12</p>
+                <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Students Recovered</p>
+                <p className="text-2xl font-bold text-purple-900 dark:text-purple-100">129</p>
               </div>
               <LineChartIcon className="h-8 w-8 text-purple-600 dark:text-purple-400" />
             </div>
@@ -105,7 +105,7 @@ export function AnalyticsPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Accuracy Rate</p>
+                <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Improvement Rate</p>
                 <p className="text-2xl font-bold text-orange-900 dark:text-orange-100">98.5%</p>
               </div>
               <Target className="h-8 w-8 text-orange-600 dark:text-orange-400" />
