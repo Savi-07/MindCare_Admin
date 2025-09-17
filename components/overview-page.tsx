@@ -22,16 +22,18 @@ import {
 export function OverviewPage() {
   const { userRole, userCollege } = useAuth();
   const [selectedCollege, setSelectedCollege] = useState<string | null>(null);
-  const [selectedYear, setSelectedYear] = useState<string>('all');
+  const [selectedYear, setSelectedYear] = useState<string>("all");
   // Get all years for the selected college (if any)
   const collegeUsers = selectedCollege
-    ? mockUsers.filter(u => u.college === selectedCollege)
+    ? mockUsers.filter((u) => u.college === selectedCollege)
     : [];
-  const allYears = Array.from(new Set(collegeUsers.map(u => u.yearOfStudy).filter(Boolean)));
+  const allYears = Array.from(
+    new Set(collegeUsers.map((u) => u.yearOfStudy).filter(Boolean))
+  );
 
   // Filtered users by year
-  const filteredCollegeUsers = collegeUsers.filter(u =>
-    selectedYear === 'all' || u.yearOfStudy?.toString() === selectedYear
+  const filteredCollegeUsers = collegeUsers.filter(
+    (u) => selectedYear === "all" || u.yearOfStudy?.toString() === selectedYear
   );
 
   const users =
@@ -66,16 +68,26 @@ export function OverviewPage() {
   const handleCollegeClick = (college: string) => {
     setSelectedCollege(college);
   };
-    const getRiskColor = (riskLevel: string) => {
-      switch (riskLevel) {
-        case "high":
-          return "text-red-600";
-        case "medium":
-          return "text-yellow-600";
-        default:
-          return "text-green-600";
-      }
-    };
+  const getRiskColor = (riskLevel: string) => {
+    switch (riskLevel) {
+      case "high":
+        return "text-red-600";
+      case "medium":
+        return "text-yellow-600";
+      default:
+        return "text-green-600";
+    }
+  };
+  const getRiskBadgeClasses = (riskLevel: string) => {
+    switch (riskLevel) {
+      case "high":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 border border-red-200 dark:border-red-800";
+      case "medium":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 border border-yellow-200 dark:border-yellow-800";
+      default:
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 border border-green-200 dark:border-green-800";
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -301,8 +313,12 @@ export function OverviewPage() {
               return (
                 <button
                   key={college.college}
-                  className={`space-y-3 w-full text-left focus:outline-none hover: cursor-pointer
-                     ${selectedCollege === college.college ? 'ring-2 ring-green-500' : ''}`}
+                  className={`space-y-3 w-full text-left focus:outline-none hover:cursor-pointer rounded-lg p-3 transition-shadow
+                     ${
+                       selectedCollege === college.college
+                         ? "ring-2 ring-green-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900 bg-white dark:bg-slate-800 shadow"
+                         : "hover:shadow-sm"
+                     }`}
                   onClick={() => handleCollegeClick(college.college)}
                 >
                   <div className="flex justify-between items-center">
@@ -330,53 +346,112 @@ export function OverviewPage() {
               );
             })}
           </CardContent>
-      {/* College details panel (moved below analytics) */}
-      {selectedCollege && (
-        <div className="mt-6 p-4 bg-white dark:bg-slate-800 rounded-lg border border-blue-200 dark:border-blue-700 shadow">
-          <div className="flex flex-wrap gap-4 mb-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Year</label>
-              <select
-                className="border rounded px-2 py-1"
-                value={selectedYear}
-                onChange={e => setSelectedYear(e.target.value)}
-              >
-                <option value="all">All Years</option>
-                {allYears.sort().map(y => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
+          {/* College details panel (moved below analytics) */}
+          {selectedCollege && (
+            <div className="mt-6 p-4 bg-white dark:bg-slate-800 rounded-lg border border-blue-200 dark:border-blue-700 shadow">
+              <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                    {selectedCollege}
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                    {filteredCollegeUsers.length} students
+                    {selectedYear !== "all" ? ` · Year ${selectedYear}` : ""}
+                  </p>
+                </div>
+                <div className="flex items-end gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Year
+                    </label>
+                    <select
+                      className="border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={selectedYear}
+                      onChange={(e) => setSelectedYear(e.target.value)}
+                    >
+                      <option value="all">All Years</option>
+                      {allYears.sort().map((y) => (
+                        <option key={y} value={y}>
+                          {y}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <Button
+                    variant="outline"
+                    className="border-slate-300 dark:border-slate-600"
+                    onClick={() => {
+                      setSelectedCollege(null);
+                      setSelectedYear("all");
+                    }}
+                  >
+                    Clear selection
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2">Students</h4>
+                {filteredCollegeUsers.length === 0 ? (
+                  <div className="text-center py-12">
+                    <p className="text-slate-500">
+                      No students found for this selection.
+                    </p>
+                    <p className="text-sm text-slate-400">
+                      Try changing the year filter or clear selection.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700">
+                    <table className="min-w-full text-sm divide-y divide-slate-200 dark:divide-slate-700">
+                      <thead className="bg-slate-50 dark:bg-slate-700/50">
+                        <tr>
+                          <th className="px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200">
+                            Name
+                          </th>
+                          <th className="px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200">
+                            Email
+                          </th>
+                          <th className="px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200">
+                            Year
+                          </th>
+                          <th className="px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200">
+                            Risk
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+                        {filteredCollegeUsers.map((u) => (
+                          <tr
+                            key={u.id}
+                            className="hover:bg-slate-50 dark:hover:bg-slate-800/60"
+                          >
+                            <td className="px-3 py-2 text-slate-900 dark:text-slate-100">
+                              {u.name}
+                            </td>
+                            <td className="px-3 py-2 text-slate-700 dark:text-slate-300">
+                              {u.email}
+                            </td>
+                            <td className="px-3 py-2 text-slate-700 dark:text-slate-300">
+                              {u.yearOfStudy ?? "-"}
+                            </td>
+                            <td className="px-3 py-2">
+                              <Badge
+                                className={`${getRiskBadgeClasses(
+                                  u.riskLevel
+                                )}`}
+                              >
+                                {u.riskLevel}
+                              </Badge>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-2">Students</h4>
-            {filteredCollegeUsers.length === 0 ? (
-              <div className="text-slate-500">No students found for this selection.</div>
-            ) : (
-              <table className="w-full text-sm border">
-                <thead>
-                  <tr className="bg-slate-100 dark:bg-slate-700">
-                    <th className="p-2 border">Name</th>
-                    <th className="p-2 border">Email</th>
-                    <th className="p-2 border">Year</th>
-                    <th className="p-2 border">Risk</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredCollegeUsers.map(u => (
-                    <tr key={u.id}>
-                      <td className="p-2 border">{u.name}</td>
-                      <td className="p-2 border">{u.email}</td>
-                      <td className="p-2 border">{u.yearOfStudy ?? '-'}</td>
-                      <td className={`p-2 border ${getRiskColor(u.riskLevel)}`}>{u.riskLevel}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
-        </div>
-      )}
+          )}
         </Card>
       </div>
     </div>
