@@ -1,4 +1,4 @@
-// Mock data for the counseling dashboard prototype
+ // Mock data for the counseling dashboard prototype
 
 export interface User {
   id: string;
@@ -12,10 +12,12 @@ export interface User {
   testScores: {
     anxiety: number;
     depression: number;
-    stress: number;
+    generalHealth: number;
+    ocd: number;
+    sud: number;
   };
   yearOfStudy?: number;
-  // branch?: string; // Uncomment if you add branch in future
+  branch?: string;
 }
 
 export interface Feedback {
@@ -38,31 +40,34 @@ export const mockUsers: User[] = [
     isTakingCounseling: true,
     riskLevel: "medium",
     lastSessionDate: "2024-01-15",
-    testScores: { anxiety: 30, depression: 20, stress: 34 },
+    testScores: { anxiety: 15, depression: 10, generalHealth: 18, ocd: 25, sud: 18 },
     yearOfStudy: 1,
+    branch: "CSE",
   },
   {
     id: "2",
     name: "Aj07",
     email: "arjun@university.edu",
-    college: "MSIT",
-    location: "kolkata",
+    college: "Meghnad Saha Institute of Technology",
+    location: "Kolkata",
     isTakingCounseling: false,
     riskLevel: "low",
-    testScores: { anxiety: 25, depression: 15, stress: 30 },
+    testScores: { anxiety: 12, depression: 9, generalHealth: 14, ocd: 18, sud: 12 },
     yearOfStudy: 2,
+    branch: "IT",
   },
   {
     id: "3",
     name: "Prizz",
     email: "priya@university.edu",
-    college: "MSIT",
+    college: "Meghnad Saha Institute of Technology",
     location: "Kolkata",
     isTakingCounseling: true,
     riskLevel: "high",
     lastSessionDate: "2024-01-20",
-    testScores: { anxiety: 34, depression: 34, stress: 34 },
+    testScores: { anxiety: 19, depression: 20, generalHealth: 21, ocd: 35, sud: 24 },
     yearOfStudy: 3,
+    branch: "ECE",
   },
   {
     id: "4",
@@ -73,19 +78,21 @@ export const mockUsers: User[] = [
     isTakingCounseling: true,
     riskLevel: "medium",
     lastSessionDate: "2024-01-18",
-    testScores: { anxiety: 28, depression: 32, stress: 29 },
+    testScores: { anxiety: 16, depression: 17, generalHealth: 15, ocd: 28, sud: 20 },
     yearOfStudy: 4,
+    branch: "ME",
   },
   {
     id: "5",
     name: "Adi99",
     email: "aditya@university.edu",
-    college: "MSIT",
+    college: "Meghnad Saha Institute of Technology",
     location: "Kolkata",
     isTakingCounseling: false,
     riskLevel: "low",
-    testScores: { anxiety: 20, depression: 18, stress: 22 },
+    testScores: { anxiety: 8, depression: 7, generalHealth: 9, ocd: 12, sud: 8 },
     yearOfStudy: 1,
+    branch: "CSE",
   },
   // Additional dummy users across listed colleges
   ...[
@@ -106,7 +113,8 @@ export const mockUsers: User[] = [
         .replace(/\s+/g, "")
         .toLowerCase()}.edu`,
       college: collegeName,
-      location: "Delhi",
+      location:
+        collegeName === "Meghnad Saha Institute of Technology" ? "Kolkata" : "Delhi",
       isTakingCounseling: (i + idx) % 2 === 0,
       riskLevel: ((i + idx) % 5 === 0
         ? "high"
@@ -115,11 +123,15 @@ export const mockUsers: User[] = [
         : "low") as "low" | "medium" | "high",
       lastSessionDate: "2024-01-1" + ((i % 9) + 1),
       testScores: {
-        anxiety: 20 + ((i * 7 + idx * 3) % 60),
-        depression: 15 + ((i * 5 + idx * 4) % 60),
-        stress: 18 + ((i * 9 + idx * 2) % 60),
+        // map to appropriate ranges
+        anxiety: ((i * 7 + idx * 3) % 22),
+        depression: ((i * 5 + idx * 4) % 22),
+        generalHealth: ((i * 9 + idx * 2) % 22),
+        ocd: ((i * 11 + idx * 5) % 41), // 0-40 range
+        sud: ((i * 13 + idx * 7) % 28), // 0-27 range
       },
       yearOfStudy: ((i % 4) + 1),
+      branch: ["CSE", "IT", "ECE", "ME"][(i + idx) % 4],
     }))
   ),
 ];
@@ -164,6 +176,34 @@ export const mockFeedback: Feedback[] = [
       "I tried a session but it did not feel like the right fit for me.",
     date: "2024-01-10",
     sentiment: "negative",
+  },
+  // Meghnad Saha Institute of Technology feedbacks
+  {
+    id: "5",
+    userId: "2",
+    userName: "Aj07",
+    rating: 4,
+    comments: "Helpful resources and quick session scheduling for Meghnad Saha Institute of Technology.",
+    date: "2024-01-12",
+    sentiment: "positive",
+  },
+  {
+    id: "6",
+    userId: "3",
+    userName: "Prizz",
+    rating: 5,
+    comments: "Great support from counsellors, noticeable improvement.",
+    date: "2024-01-21",
+    sentiment: "positive",
+  },
+  {
+    id: "7",
+    userId: "5",
+    userName: "Adi99",
+    rating: 3,
+    comments: "Good, but would prefer more weekend slots.",
+    date: "2024-01-16",
+    sentiment: "neutral",
   },
 ];
 
@@ -311,38 +351,85 @@ export const mockTraitProgress: TraitProgress[] = [
     year3: 4,
     year4: 3,
   },
+  {
+    studentId: "STU003",
+    trait: "Social Anxiety",
+    year1: 9,
+    year2: 7,
+    year3: 5,
+    year4: 3,
+  },
+  {
+    studentId: "STU003",
+    trait: "Time Management",
+    year1: 8,
+    year2: 6,
+    year3: 4,
+    year4: 2,
+  },
+  {
+    studentId: "STU004",
+    trait: "Career Anxiety",
+    year1: 7,
+    year2: 5,
+    year3: 3,
+    year4: 2,
+  },
+  {
+    studentId: "STU004",
+    trait: "Relationship Issues",
+    year1: 6,
+    year2: 4,
+    year3: 2,
+    year4: 1,
+  },
+  {
+    studentId: "STU005",
+    trait: "Sleep Issues",
+    year1: 8,
+    year2: 6,
+    year3: 4,
+    year4: 3,
+  },
+  {
+    studentId: "STU005",
+    trait: "Motivation",
+    year1: 7,
+    year2: 5,
+    year3: 3,
+    year4: 2,
+  },
 ];
 
 export const mockAnalytics = {
   usersByCollege: [
-    { college: "University of Delhi", users: 120, counseling: 72 },
-    { college: "Jawaharlal Nehru University", users: 85, counseling: 56 },
+    { college: "University of Delhi", users: 8, counseling: 4 },
+    { college: "Jawaharlal Nehru University", users: 8, counseling: 4 },
     {
       college: "Indian Institute of Technology Delhi",
-      users: 60,
-      counseling: 40,
+      users: 8,
+      counseling: 4,
     },
-    { college: "Jamia Millia Islamia", users: 70, counseling: 39 },
+    { college: "Jamia Millia Islamia", users: 8, counseling: 4 },
     {
       college: "Guru Gobind Singh Indraprastha University",
-      users: 95,
-      counseling: 52,
+      users: 8,
+      counseling: 4,
     },
-    { college: "Ambedkar University Delhi", users: 50, counseling: 22 },
-    { college: "Delhi Technological University", users: 110, counseling: 66 },
+    { college: "Ambedkar University Delhi", users: 8, counseling: 4 },
+    { college: "Delhi Technological University", users: 8, counseling: 4 },
     {
       college: "Netaji Subhas University of Technology",
-      users: 75,
-      counseling: 41,
+      users: 8,
+      counseling: 4,
     },
     {
       college: "Meghnad Saha Institute of Technology",
-      users: 52,
-      counseling: 30,
+      users: 11, // 8 generated + 3 individual users
+      counseling: 6, // 4 generated + 2 individual users
     },
-    { college: "MSIT", users: 45, counseling: 28 },
-    { college: "Heritage", users: 38, counseling: 15 },
-    { college: "Asansol Engineering College", users: 52, counseling: 35 },
+    { college: "Heritage", users: 9, counseling: 5 }, // 8 generated + 1 individual user
+    { college: "Asansol Engineering College", users: 9, counseling: 5 }, // 8 generated + 1 individual user
   ],
   usersByLocation: [
     { location: "Kolkata", users: 65 },
@@ -351,11 +438,11 @@ export const mockAnalytics = {
     { location: "Guwhati", users: 21 },
   ],
   testScoresTrend: [
-    { month: "Sep", anxiety: 28, depression: 22, stress: 30 },
-    { month: "Oct", anxiety: 30, depression: 18, stress: 32 },
-    { month: "Nov", anxiety: 25, depression: 15, stress: 28 },
-    { month: "Dec", anxiety: 20, depression: 12, stress: 24 },
-    { month: "Jan", anxiety: 18, depression: 10, stress: 20 },
+    { month: "Sep", anxiety: 14, depression: 12, generalHealth: 15, ocd: 28, sud: 18 },
+    { month: "Oct", anxiety: 13, depression: 10, generalHealth: 14, ocd: 26, sud: 16 },
+    { month: "Nov", anxiety: 11, depression: 9, generalHealth: 12, ocd: 24, sud: 14 },
+    { month: "Dec", anxiety: 9, depression: 8, generalHealth: 10, ocd: 22, sud: 12 },
+    { month: "Jan", anxiety: 8, depression: 7, generalHealth: 9, ocd: 20, sud: 10 },
   ],
   flaggedCasesTrend: [
     { month: "Sep", cases: 8 },
@@ -389,5 +476,17 @@ export const mockAnalytics = {
     { year: "2022", improvementRate: 72 },
     { year: "2023", improvementRate: 78 },
     { year: "2024", improvementRate: 82 },
+  ],
+};
+
+export const mockAggregates = {
+  // Weekday (0=Sun..6=Sat) x hour (0..23) request counts
+  requestsByWeekdayHour: Array.from({ length: 7 }).map((_, d) =>
+    Array.from({ length: 24 }).map((_, h) => ((d + 2) * (h % 6) + (h > 8 && h < 18 ? 6 : 2)) % 20)
+  ),
+  resourceUptake: [
+    { resource: "Workshops", recommended: 120, attended: 78 },
+    { resource: "Helpline", recommended: 85, attended: 52 },
+    { resource: "Self-help Modules", recommended: 140, attended: 96 },
   ],
 };

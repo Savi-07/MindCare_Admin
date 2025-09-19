@@ -26,8 +26,8 @@ export function CollegeAnalyticsPage() {
   const [timeRange, setTimeRange] = useState("6months");
 
   // Filter data for the specific college
-  const collegeUsers = mockUsers.filter(
-    (user) => user.college.toLowerCase() === userCollege?.toLowerCase()
+  const collegeUsers = mockUsers.filter((user) =>
+    user.college.toLowerCase() === userCollege?.toLowerCase()
   );
 
   const collegeFeedback = mockFeedback.filter((feedback) => {
@@ -60,8 +60,16 @@ export function CollegeAnalyticsPage() {
     collegeUsers.reduce((acc, user) => acc + user.testScores.depression, 0),
     totalUsers
   );
-  const averageStress = safeDiv(
-    collegeUsers.reduce((acc, user) => acc + user.testScores.stress, 0),
+  const averageGeneralHealth = safeDiv(
+    collegeUsers.reduce((acc, user) => acc + (user.testScores as any).generalHealth, 0),
+    totalUsers
+  );
+  const averageOCD = safeDiv(
+    collegeUsers.reduce((acc, user) => acc + (user.testScores as any).ocd, 0),
+    totalUsers
+  );
+  const averageSUD = safeDiv(
+    collegeUsers.reduce((acc, user) => acc + (user.testScores as any).sud, 0),
     totalUsers
   );
 
@@ -364,9 +372,7 @@ export function CollegeAnalyticsPage() {
               <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg">
                 <BarChart3 className="h-5 w-5 text-slate-600 dark:text-slate-400" />
               </div>
-              <span className="text-lg font-semibold">
-                Average Mental Health Scores
-              </span>
+              <span className="text-lg font-semibold">Average Mental Health Scores</span>
             </CardTitle>
             <p className="text-sm text-slate-600 dark:text-slate-400">
               College-wide mental health metrics
@@ -378,20 +384,18 @@ export function CollegeAnalyticsPage() {
                 <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                   Anxiety
                 </span>
-                <span className="text-lg font-bold text-slate-900 dark:text-white">
-                  {averageAnxiety}/100
-                </span>
+                <span className="text-lg font-bold text-slate-900 dark:text-white">{averageAnxiety}/21</span>
               </div>
               <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-4">
                 <div
                   className={`h-4 rounded-full transition-all duration-500 ${
-                    averageAnxiety >= 70
+                    averageAnxiety >= 15
                       ? "bg-red-500"
-                      : averageAnxiety >= 50
+                      : averageAnxiety >= 10
                       ? "bg-yellow-500"
                       : "bg-green-500"
                   }`}
-                  style={{ width: `${averageAnxiety}%` }}
+                  style={{ width: `${(averageAnxiety / 21) * 100}%` }}
                 />
               </div>
             </div>
@@ -401,20 +405,18 @@ export function CollegeAnalyticsPage() {
                 <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                   Depression
                 </span>
-                <span className="text-lg font-bold text-slate-900 dark:text-white">
-                  {averageDepression}/100
-                </span>
+                <span className="text-lg font-bold text-slate-900 dark:text-white">{averageDepression}/21</span>
               </div>
               <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-4">
                 <div
                   className={`h-4 rounded-full transition-all duration-500 ${
-                    averageDepression >= 70
+                    averageDepression >= 15
                       ? "bg-red-500"
-                      : averageDepression >= 50
+                      : averageDepression >= 10
                       ? "bg-yellow-500"
                       : "bg-green-500"
                   }`}
-                  style={{ width: `${averageDepression}%` }}
+                  style={{ width: `${(averageDepression / 21) * 100}%` }}
                 />
               </div>
             </div>
@@ -424,20 +426,60 @@ export function CollegeAnalyticsPage() {
                 <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                   Stress
                 </span>
-                <span className="text-lg font-bold text-slate-900 dark:text-white">
-                  {averageStress}/100
-                </span>
+                <span className="text-lg font-bold text-slate-900 dark:text-white">{averageGeneralHealth}/21</span>
               </div>
               <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-4">
                 <div
                   className={`h-4 rounded-full transition-all duration-500 ${
-                    averageStress >= 70
+                    averageGeneralHealth >= 15
                       ? "bg-red-500"
-                      : averageStress >= 50
+                      : averageGeneralHealth >= 10
                       ? "bg-yellow-500"
                       : "bg-green-500"
                   }`}
-                  style={{ width: `${averageStress}%` }}
+                  style={{ width: `${(averageGeneralHealth / 21) * 100}%` }}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  OCD
+                </span>
+                <span className="text-lg font-bold text-slate-900 dark:text-white">{averageOCD}/40</span>
+              </div>
+              <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-4">
+                <div
+                  className={`h-4 rounded-full transition-all duration-500 ${
+                    averageOCD >= 30
+                      ? "bg-red-500"
+                      : averageOCD >= 20
+                      ? "bg-yellow-500"
+                      : "bg-green-500"
+                  }`}
+                  style={{ width: `${(averageOCD / 40) * 100}%` }}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  SUD
+                </span>
+                <span className="text-lg font-bold text-slate-900 dark:text-white">{averageSUD}/27</span>
+              </div>
+              <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-4">
+                <div
+                  className={`h-4 rounded-full transition-all duration-500 ${
+                    averageSUD >= 20
+                      ? "bg-red-500"
+                      : averageSUD >= 13
+                      ? "bg-yellow-500"
+                      : "bg-green-500"
+                  }`}
+                  style={{ width: `${(averageSUD / 27) * 100}%` }}
                 />
               </div>
             </div>
@@ -459,54 +501,35 @@ export function CollegeAnalyticsPage() {
           </p>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-6 md:grid-cols-3">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 mb-2">
-                {positiveFeedback}
+          {(() => {
+            const total = collegeFeedback.length;
+            const pct = (n: number) => (total ? Math.round((n / total) * 100) : 0);
+            const Circle = ({ value, color, label }: { value: number; color: string; label: string }) => (
+              <div className="flex flex-col items-center gap-2">
+                <div
+                  className="w-24 h-24 rounded-full grid place-items-center text-xl font-bold"
+                  style={{
+                    background: `conic-gradient(${color} ${pct(value)}%, #e5e7eb ${pct(value)}%)`,
+                  }}
+                >
+                  <div className="w-20 h-20 rounded-full bg-white dark:bg-slate-800 grid place-items-center">
+                    <span className={color === '#ef4444' ? 'text-red-600' : color === '#f59e0b' ? 'text-yellow-600' : 'text-green-600'}>
+                      {value}
+                    </span>
+                  </div>
+                </div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">{label}</div>
+                <div className="text-xs text-slate-500">{pct(value)}% of total</div>
               </div>
-              <div className="text-sm text-slate-600 dark:text-slate-400">
-                Positive Feedback
+            );
+            return (
+              <div className="grid gap-6 md:grid-cols-3 place-items-center">
+                <Circle value={positiveFeedback} color="#10b981" label="Positive Feedback" />
+                <Circle value={neutralFeedback} color="#f59e0b" label="Neutral Feedback" />
+                <Circle value={negativeFeedback} color="#ef4444" label="Negative Feedback" />
               </div>
-              <div className="text-xs text-slate-500 dark:text-slate-500 mt-1">
-                {collegeFeedback.length > 0
-                  ? Math.round(
-                      (positiveFeedback / collegeFeedback.length) * 100
-                    )
-                  : 0}
-                % of total
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-600 mb-2">
-                {neutralFeedback}
-              </div>
-              <div className="text-sm text-slate-600 dark:text-slate-400">
-                Neutral Feedback
-              </div>
-              <div className="text-xs text-slate-500 dark:text-slate-500 mt-1">
-                {collegeFeedback.length > 0
-                  ? Math.round((neutralFeedback / collegeFeedback.length) * 100)
-                  : 0}
-                % of total
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-red-600 mb-2">
-                {negativeFeedback}
-              </div>
-              <div className="text-sm text-slate-600 dark:text-slate-400">
-                Negative Feedback
-              </div>
-              <div className="text-xs text-slate-500 dark:text-slate-500 mt-1">
-                {collegeFeedback.length > 0
-                  ? Math.round(
-                      (negativeFeedback / collegeFeedback.length) * 100
-                    )
-                  : 0}
-                % of total
-              </div>
-            </div>
-          </div>
+            );
+          })()}
         </CardContent>
       </Card>
     </div>

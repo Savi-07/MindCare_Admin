@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuth } from "./auth-context";
-import { mockUsers } from "@/lib/mock-data";
+import { mockUsers, mockFeedback } from "@/lib/mock-data";
 import {
   Users,
   Search,
@@ -29,6 +29,8 @@ import {
   UserCheck,
   AlertTriangle,
   TrendingUp,
+  BarChart3,
+  Heart,
 } from "lucide-react";
 
 export function CollegeStudentsPage() {
@@ -41,6 +43,25 @@ export function CollegeStudentsPage() {
   const collegeStudents = mockUsers.filter(
     (user) => user.college.toLowerCase() === userCollege?.toLowerCase()
   );
+
+  const collegeFeedback = mockFeedback.filter((f) => {
+    const user = mockUsers.find((u) => u.id === f.userId);
+    return user?.college.toLowerCase() === userCollege?.toLowerCase();
+  });
+  const positiveFeedback = collegeFeedback.filter((f) => f.sentiment === "positive").length;
+  const neutralFeedback = collegeFeedback.filter((f) => f.sentiment === "neutral").length;
+  const negativeFeedback = collegeFeedback.filter((f) => f.sentiment === "negative").length;
+
+  // Derived insights for the college (branch-wise and year-wise)
+  const branchCounts = collegeStudents.reduce<Record<string, number>>((acc, s) => {
+    const key = (s as any).branch || "Unknown";
+    acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+  const yearCounts = [1, 2, 3, 4].map((y) => ({
+    year: `${y} Year`,
+    count: collegeStudents.filter((s) => s.yearOfStudy === y).length,
+  }));
 
   // Filter students based on search and filters
   const filteredStudents = collegeStudents.filter((user) => {
@@ -86,8 +107,8 @@ export function CollegeStudentsPage() {
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 70) return "text-red-600";
-    if (score >= 50) return "text-yellow-600";
+    if (score >= 15) return "text-red-600";
+    if (score >= 10) return "text-yellow-600";
     return "text-green-600";
   };
 
@@ -211,211 +232,109 @@ export function CollegeStudentsPage() {
         </Card>
       </div>
 
-      {/* Filters */}
-      <Card className="border border-slate-200 dark:border-slate-700 bg-gradient-to-br from-slate-50/50 to-gray-50/50 dark:from-slate-900/20 dark:to-gray-900/20">
-        <CardHeader className="bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-900/30 dark:to-gray-900/30 rounded-t-lg">
+      {/* Visual Insights */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Branch-wise Distribution */}
+        <Card className="border border-slate-200 dark:border-slate-700">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-3 text-slate-800 dark:text-slate-200">
+              <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg">
+                <TrendingUp className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+              </div>
+              <span className="text-lg font-semibold">Branch-wise Distribution</span>
+            </CardTitle>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Students by branch</p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {Object.keys(branchCounts).length === 0 ? (
+              <div className="text-sm text-slate-500">No branch data available</div>
+            ) : (
+              Object.entries(branchCounts).map(([branch, count]) => {
+                const pct = collegeStudents.length ? Math.round((count / collegeStudents.length) * 100) : 0;
+                return (
+                  <div key={branch} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm font-medium">{branch}</div>
+                      <div className="text-sm text-slate-500">{count} ({pct}%)</div>
+                    </div>
+                    <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3">
+                      <div className="h-3 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600" style={{ width: `${pct}%` }} />
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Year-wise Distribution */}
+        <Card className="border border-slate-200 dark:border-slate-700">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-3 text-slate-800 dark:text-slate-200">
+              <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg">
+                <BarChart3 className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+              </div>
+              <span className="text-lg font-semibold">Year-wise Distribution</span>
+            </CardTitle>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Students by academic year</p>
+          </CardHeader>
+          <CardContent className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {yearCounts.map((y) => {
+              const pct = collegeStudents.length ? Math.round((y.count / collegeStudents.length) * 100) : 0;
+              return (
+                <div key={y.year} className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                  <div className="text-xs text-slate-500 mb-2">{y.year}</div>
+                  <div className="text-2xl font-bold mb-1">{y.count}</div>
+                  <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                    <div className="h-2 rounded-full bg-emerald-500" style={{ width: `${pct}%` }} />
+                  </div>
+                  <div className="text-xs text-slate-500 mt-1">{pct}%</div>
+                </div>
+              );
+            })}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Feedback Analysis (circular UI) */}
+      <Card className="border border-slate-200 dark:border-slate-700">
+        <CardHeader>
           <CardTitle className="flex items-center gap-3 text-slate-800 dark:text-slate-200">
             <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg">
-              <Filter className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+              <Heart className="h-5 w-5 text-slate-600 dark:text-slate-400" />
             </div>
-            <span className="text-lg font-semibold">
-              Student Search & Filter
-            </span>
+            <span className="text-lg font-semibold">Feedback Analysis</span>
           </CardTitle>
-          <p className="text-sm text-slate-600 dark:text-slate-400">
-            Find and filter students efficiently
-          </p>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Student feedback sentiment breakdown</p>
         </CardHeader>
-        <CardContent className="p-6">
-          <div className="flex gap-4 flex-wrap mb-6">
-            <div className="relative flex-1 min-w-64">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-              <Input
-                placeholder="Search by name or email..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-blue-500"
-              />
-            </div>
-            <Select value={riskFilter} onValueChange={setRiskFilter}>
-              <SelectTrigger className="w-48 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-blue-500">
-                <Filter className="h-4 w-4 mr-2 text-slate-400" />
-                <SelectValue placeholder="Filter by risk level" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Risk Levels</SelectItem>
-                <SelectItem value="high">High Risk</SelectItem>
-                <SelectItem value="medium">Medium Risk</SelectItem>
-                <SelectItem value="low">Low Risk</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select
-              value={counselingFilter}
-              onValueChange={setCounselingFilter}
-            >
-              <SelectTrigger className="w-48 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-blue-500">
-                <UserCheck className="h-4 w-4 mr-2 text-slate-400" />
-                <SelectValue placeholder="Filter by counseling status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Students</SelectItem>
-                <SelectItem value="active">Active Counseling</SelectItem>
-                <SelectItem value="inactive">Not in Counseling</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Students List */}
-          <div className="space-y-4">
-            {filteredStudents.length > 0 ? (
-              filteredStudents.map((student) => (
+        <CardContent>
+          {(() => {
+            const total = collegeFeedback.length;
+            const pct = (n: number) => (total ? Math.round((n / total) * 100) : 0);
+            const Circle = ({ value, color, label }: { value: number; color: string; label: string }) => (
+              <div className="flex flex-col items-center gap-2">
                 <div
-                  key={student.id}
-                  className={`border border-slate-200 dark:border-slate-700 rounded-xl p-6 space-y-4 bg-white dark:bg-slate-800 hover:shadow-lg transition-all duration-200 border-l-4 ${getRiskColor(
-                    student.riskLevel
-                  )}`}
+                  className="w-24 h-24 rounded-full grid place-items-center text-xl font-bold"
+                  style={{ background: `conic-gradient(${color} ${pct(value)}%, #e5e7eb ${pct(value)}%)` }}
                 >
-                  {/* Student Header */}
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-3">
-                        <h4 className="text-xl font-semibold text-slate-900 dark:text-white">
-                          {student.name}
-                        </h4>
-                        {getRiskBadge(student.riskLevel)}
-                      </div>
-                      <div className="flex items-center gap-6 text-sm text-slate-500 dark:text-slate-400">
-                        <div className="flex items-center gap-2">
-                          <Mail className="h-4 w-4" />
-                          <span>{student.email}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4" />
-                          <span>{student.location}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="border-slate-300 dark:border-slate-600"
-                      >
-                        <Phone className="h-4 w-4 mr-2" />
-                        Contact
-                      </Button>
-                      <Button
-                        size="sm"
-                        className="bg-blue-600 hover:bg-blue-700 text-white"
-                      >
-                        <Eye className="h-4 w-4 mr-2" />
-                        View Profile
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/* Test Scores */}
-                  <div className="grid gap-4 md:grid-cols-3">
-                    <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 border border-slate-200 dark:border-slate-600">
-                      <div className="text-sm font-medium mb-2 text-slate-600 dark:text-slate-400">
-                        Anxiety Score
-                      </div>
-                      <div
-                        className={`text-3xl font-bold ${getScoreColor(
-                          student.testScores.anxiety
-                        )}`}
-                      >
-                        {student.testScores.anxiety}
-                      </div>
-                    </div>
-                    <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 border border-slate-200 dark:border-slate-600">
-                      <div className="text-sm font-medium mb-2 text-slate-600 dark:text-slate-400">
-                        Depression Score
-                      </div>
-                      <div
-                        className={`text-3xl font-bold ${getScoreColor(
-                          student.testScores.depression
-                        )}`}
-                      >
-                        {student.testScores.depression}
-                      </div>
-                    </div>
-                    <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 border border-slate-200 dark:border-slate-600">
-                      <div className="text-sm font-medium mb-2 text-slate-600 dark:text-slate-400">
-                        Stress Score
-                      </div>
-                      <div
-                        className={`text-3xl font-bold ${getScoreColor(
-                          student.testScores.stress
-                        )}`}
-                      >
-                        {student.testScores.stress}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Session Info */}
-                  <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-600">
-                    <div className="flex items-center gap-6 text-sm">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-slate-400" />
-                        <span className="text-slate-600 dark:text-slate-400">
-                          Last Session: {formatDate(student.lastSessionDate)}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-slate-400" />
-                        <span>
-                          {student.isTakingCounseling ? (
-                            <Badge className="bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200 border-green-200 dark:border-green-700">
-                              Active in Counseling
-                            </Badge>
-                          ) : (
-                            <Badge
-                              variant="outline"
-                              className="border-slate-300 dark:border-slate-600"
-                            >
-                              Not in Counseling
-                            </Badge>
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="border-slate-300 dark:border-slate-600"
-                    >
-                      Schedule Follow-up
-                    </Button>
+                  <div className="w-20 h-20 rounded-full bg-white dark:bg-slate-800 grid place-items-center">
+                    <span className={color === '#ef4444' ? 'text-red-600' : color === '#f59e0b' ? 'text-yellow-600' : 'text-green-600'}>
+                      {value}
+                    </span>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="text-center py-12">
-                <div className="p-4 bg-blue-100 dark:bg-blue-900 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <Users className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-                </div>
-                <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">
-                  No students found
-                </p>
-                <p className="text-sm text-slate-400 dark:text-slate-500 mb-4">
-                  No students match your current filters
-                </p>
-                <Button
-                  variant="outline"
-                  className="bg-transparent border-slate-300 dark:border-slate-600"
-                  onClick={() => {
-                    setSearchTerm("");
-                    setRiskFilter("all");
-                    setCounselingFilter("all");
-                  }}
-                >
-                  Clear Filters
-                </Button>
+                <div className="text-sm text-slate-600 dark:text-slate-400">{label}</div>
+                <div className="text-xs text-slate-500">{pct(value)}% of total</div>
               </div>
-            )}
-          </div>
+            );
+            return (
+              <div className="grid gap-6 md:grid-cols-3 place-items-center">
+                <Circle value={positiveFeedback} color="#10b981" label="Positive Feedback" />
+                <Circle value={neutralFeedback} color="#f59e0b" label="Neutral Feedback" />
+                <Circle value={negativeFeedback} color="#ef4444" label="Negative Feedback" />
+              </div>
+            );
+          })()}
         </CardContent>
       </Card>
     </div>

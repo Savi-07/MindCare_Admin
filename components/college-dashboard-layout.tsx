@@ -32,11 +32,6 @@ export function CollegeDashboardLayout({
     () => [
       { name: "Dashboard", href: "/college", icon: LayoutDashboard },
       { name: "Students", href: "/college/students", icon: Users },
-      {
-        name: "Risk Management",
-        href: "/college/flagged",
-        icon: AlertTriangle,
-      },
       { name: "Analytics", href: "/college/analytics", icon: BarChart3 },
     ],
     []

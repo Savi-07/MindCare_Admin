@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Select } from '@/components/ui/select'
-import { Users, Calendar, TrendingUp, Eye } from 'lucide-react'
+import { Users, Calendar, TrendingUp, Eye, X } from 'lucide-react'
 import { mockAnonymousStudents, mockTraitProgress } from '@/lib/mock-data'
 
 export function CounsellorStudentsPage() {
@@ -15,14 +15,17 @@ export function CounsellorStudentsPage() {
   const students = mockAnonymousStudents
   const traitProgress = mockTraitProgress
 
-  const getTraitData = (studentId: string, trait: string) => {
+  const getTraitData = (studentId: string, trait: string, currentYear?: number) => {
     const data = traitProgress.find(t => t.studentId === studentId && t.trait === trait)
-    return data ? [
+    if (!data) return []
+    const all = [
       { year: 'Year 1', score: data.year1 },
       { year: 'Year 2', score: data.year2 },
       { year: 'Year 3', score: data.year3 },
       { year: 'Year 4', score: data.year4 }
-    ] : []
+    ]
+    const limit = currentYear ? Math.max(1, Math.min(4, currentYear)) : 4
+    return all.slice(0, limit)
   }
 
   const getImprovementBadgeColor = (score: number) => {
@@ -108,82 +111,51 @@ export function CounsellorStudentsPage() {
         </div>
       </Card>
 
-      {/* Individual Student Trait Progress */}
-      {selectedStudent && (
-        <Card className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-              Trait Progress - {selectedStudent}
-            </h3>
-            <div className="flex gap-2">
-              <select
-                value={selectedTrait}
-                onChange={(e) => setSelectedTrait(e.target.value)}
-                className="px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-              >
-                <option value="Anxiety">Anxiety</option>
-                <option value="Depression">Depression</option>
-                <option value="Stress Management">Stress Management</option>
-                <option value="Academic Pressure">Academic Pressure</option>
-              </select>
-              <Button variant="outline" size="sm" onClick={() => setSelectedStudent(null)}>
-                Close
-              </Button>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            {/* Trait Progress Chart */}
-            <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-lg">
-              <h4 className="font-medium text-slate-900 dark:text-white mb-4">{selectedTrait} Progress Over Years</h4>
+      {/* Individual Student Trait Progress - Popup */}
+      {selectedStudent && (() => {
+        const student = students.find(s => s.anonymousId === selectedStudent)
+        if (!student) return null
+        const traits = student.traits
+        const traitToShow = selectedTrait && traits.includes(selectedTrait) ? selectedTrait : traits[0]
+        const data = getTraitData(selectedStudent, traitToShow, student.yearOfStudy)
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/40" onClick={() => setSelectedStudent(null)} />
+            <Card className="relative z-10 w-full max-w-2xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-lg font-semibold">Progress: {student.anonymousId}</h3>
+                  <p className="text-sm text-slate-500">Year 1 to Year {student.yearOfStudy}</p>
+                </div>
+                <Button variant="outline" size="sm" onClick={() => setSelectedStudent(null)}>
+                  <X className="h-4 w-4 mr-1" /> Close
+                </Button>
+              </div>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-sm text-slate-500">Trait:</span>
+                <select
+                  value={traitToShow}
+                  onChange={(e) => setSelectedTrait(e.target.value)}
+                  className="px-2 py-1 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-sm"
+                >
+                  {traits.map(t => (<option key={t} value={t}>{t}</option>))}
+                </select>
+              </div>
               <div className="space-y-3">
-                {getTraitData(selectedStudent, selectedTrait).map((data, index) => (
-                  <div key={index} className="flex items-center gap-4">
-                    <div className="w-20 text-sm text-slate-600 dark:text-slate-400">{data.year}</div>
-                    <div className="flex-1 bg-slate-200 dark:bg-slate-700 rounded-full h-4">
-                      <div 
-                        className="bg-gradient-to-r from-green-500 to-emerald-600 h-4 rounded-full transition-all duration-500"
-                        style={{ width: `${(data.score / 10) * 100}%` }}
-                      ></div>
+                {data.map((row) => (
+                  <div key={row.year} className="flex items-center gap-3">
+                    <div className="w-20 text-xs text-slate-500">{row.year}</div>
+                    <div className="flex-1 bg-slate-200 dark:bg-slate-700 h-3 rounded-full">
+                      <div className="h-3 rounded-full bg-emerald-500" style={{ width: `${(row.score / 10) * 100}%` }} />
                     </div>
-                    <div className="w-12 text-sm font-medium text-slate-900 dark:text-white">{data.score}/10</div>
+                    <div className="w-10 text-xs font-medium">{row.score}/10</div>
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* Progress Summary */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="h-4 w-4 text-blue-600" />
-                  <span className="text-sm font-medium text-blue-900 dark:text-blue-100">Overall Trend</span>
-                </div>
-                <div className="text-lg font-bold text-blue-900 dark:text-blue-100">Improving</div>
-                <div className="text-xs text-blue-700 dark:text-blue-200">+15% this year</div>
-              </div>
-              
-              <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <Calendar className="h-4 w-4 text-green-600" />
-                  <span className="text-sm font-medium text-green-900 dark:text-green-100">Last Session</span>
-                </div>
-                <div className="text-lg font-bold text-green-900 dark:text-green-100">2 days ago</div>
-                <div className="text-xs text-green-700 dark:text-green-200">Regular attendance</div>
-              </div>
-              
-              <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <Users className="h-4 w-4 text-purple-600" />
-                  <span className="text-sm font-medium text-purple-900 dark:text-purple-100">Engagement</span>
-                </div>
-                <div className="text-lg font-bold text-purple-900 dark:text-purple-100">High</div>
-                <div className="text-xs text-purple-700 dark:text-purple-200">Active participation</div>
-              </div>
-            </div>
+            </Card>
           </div>
-        </Card>
-      )}
+        )
+      })()}
 
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

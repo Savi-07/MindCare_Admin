@@ -26,14 +26,14 @@ export function CounsellorOverviewPage() {
       bgColor: "bg-green-50",
       description: "Sessions Scheduled",
     },
-    {
-      title: "Previous Sessions",
-      value: counsellorStats.previousSessions,
-      icon: Clock,
-      color: "text-orange-600",
-      bgColor: "bg-orange-50",
-      description: "Sessions Conducted Till Date",
-    },
+    // {
+    //   title: "Previous Sessions",
+    //   value: counsellorStats.previousSessions,
+    //   icon: Clock,
+    //   color: "text-orange-600",
+    //   bgColor: "bg-orange-50",
+    //   description: "Sessions Conducted Till Date",
+    // },
     {
       title: "Avg. Improvement",
       value: `${counsellorStats.averageImprovementScore}%`,

@@ -54,8 +54,10 @@ export function OverviewPage() {
         acc +
         (user.testScores.anxiety +
           user.testScores.depression +
-          user.testScores.stress) /
-          3,
+          (user.testScores as any).generalHealth +
+          (user.testScores as any).ocd +
+          (user.testScores as any).sud) /
+          5,
       0
     ) / (users.length || 1)
   );

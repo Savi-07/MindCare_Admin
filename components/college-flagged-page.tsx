@@ -83,9 +83,10 @@ export function CollegeFlaggedPage() {
     }
   };
 
-  const getScoreColor = (score: number) => {
-    if (score >= 70) return "text-red-600";
-    if (score >= 50) return "text-yellow-600";
+  const getScoreColor = (score: number, maxScore: number = 21) => {
+    const percentage = (score / maxScore) * 100;
+    if (percentage >= 70) return "text-red-600";
+    if (percentage >= 50) return "text-yellow-600";
     return "text-green-600";
   };
 
@@ -300,14 +301,14 @@ export function CollegeFlaggedPage() {
                   </div>
 
                   {/* Test Scores */}
-                  <div className="grid gap-4 md:grid-cols-3">
+                  <div className="grid gap-4 md:grid-cols-5">
                     <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 border border-slate-200 dark:border-slate-600">
                       <div className="text-sm font-medium mb-2 text-slate-600 dark:text-slate-400">
                         Anxiety Score
                       </div>
                       <div
                         className={`text-3xl font-bold ${getScoreColor(
-                          user.testScores.anxiety
+                          user.testScores.anxiety, 21
                         )}`}
                       >
                         {user.testScores.anxiety}
@@ -319,7 +320,7 @@ export function CollegeFlaggedPage() {
                       </div>
                       <div
                         className={`text-3xl font-bold ${getScoreColor(
-                          user.testScores.depression
+                          user.testScores.depression, 21
                         )}`}
                       >
                         {user.testScores.depression}
@@ -331,10 +332,34 @@ export function CollegeFlaggedPage() {
                       </div>
                       <div
                         className={`text-3xl font-bold ${getScoreColor(
-                          user.testScores.stress
+                          (user.testScores as any).generalHealth, 21
                         )}`}
                       >
-                        {user.testScores.stress}
+                        {(user.testScores as any).generalHealth}
+                      </div>
+                    </div>
+                    <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 border border-slate-200 dark:border-slate-600">
+                      <div className="text-sm font-medium mb-2 text-slate-600 dark:text-slate-400">
+                        OCD Score
+                      </div>
+                      <div
+                        className={`text-3xl font-bold ${getScoreColor(
+                          (user.testScores as any).ocd, 40
+                        )}`}
+                      >
+                        {(user.testScores as any).ocd}
+                      </div>
+                    </div>
+                    <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 border border-slate-200 dark:border-slate-600">
+                      <div className="text-sm font-medium mb-2 text-slate-600 dark:text-slate-400">
+                        SUD Score
+                      </div>
+                      <div
+                        className={`text-3xl font-bold ${getScoreColor(
+                          (user.testScores as any).sud, 27
+                        )}`}
+                      >
+                        {(user.testScores as any).sud}
                       </div>
                     </div>
                   </div>

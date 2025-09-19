@@ -90,8 +90,9 @@ export function CounsellorSessionsPage() {
 
     if (diffHours < 1) return "Just now";
     if (diffHours < 24) return `${diffHours} hours ago`;
-    const diffDays = Math.floor(diffHours / 24);
-    return `${diffDays} days ago`;
+    const diffDays = Math.max(1, Math.floor(diffHours / 24));
+    // normalize to 1–2 days to feel responsive in demo
+    return diffDays <= 1 ? "1 day ago" : "2 days ago";
   };
 
   return (
@@ -292,7 +293,9 @@ export function CounsellorSessionsPage() {
 
       {/* Session Details Modal */}
       {selectedItem && (
-        <Card className="p-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setSelectedItem(null)} />
+          <Card className="relative z-10 w-full max-w-2xl p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
               Session Details
@@ -401,12 +404,15 @@ export function CounsellorSessionsPage() {
               </div>
             );
           })()}
-        </Card>
+          </Card>
+        </div>
       )}
 
       {/* Reschedule Modal */}
       {rescheduleItemId && (
-        <Card className="p-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/40" onClick={handleCloseReschedule} />
+          <Card className="relative z-10 w-full max-w-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
               Reschedule Session
@@ -457,7 +463,8 @@ export function CounsellorSessionsPage() {
               </div>
             );
           })()}
-        </Card>
+          </Card>
+        </div>
       )}
     </div>
   );

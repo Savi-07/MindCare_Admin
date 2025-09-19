@@ -65,7 +65,7 @@ export function AnalyticsPage() {
 
       {/* Quick Stats */}
       <div className="grid gap-4 md:grid-cols-4">
-        <Card className="border-l-4 border-l-indigo-500 bg-gradient-to-r from-indigo-50 to-indigo-100 dark:from-indigo-900 dark:to-indigo-800">
+        {/* <Card className="border-l-4 border-l-indigo-500 bg-gradient-to-r from-indigo-50 to-indigo-100 dark:from-indigo-900 dark:to-indigo-800">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -75,9 +75,9 @@ export function AnalyticsPage() {
               <BarChart3 className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
         
-        <Card className="border-l-4 border-l-green-500 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900 dark:to-green-800">
+        {/* <Card className="border-l-4 border-l-green-500 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900 dark:to-green-800">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -87,7 +87,7 @@ export function AnalyticsPage() {
               <TrendingUp className="h-8 w-8 text-green-600 dark:text-green-400" />
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
         
         <Card className="border-l-4 border-l-purple-500 bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800">
           <CardContent className="p-4">
@@ -125,7 +125,7 @@ export function AnalyticsPage() {
               </div>
               <span className="text-lg font-semibold">College Participation</span>
             </CardTitle>
-            <p className="text-sm text-blue-600 dark:text-blue-400">Counseling engagement by department</p>
+            <p className="text-sm text-blue-600 dark:text-blue-400">Counseling engagement by College</p>
           </CardHeader>
           <CardContent className="p-6">
             <ResponsiveContainer width="100%" height={300}>
@@ -134,10 +134,11 @@ export function AnalyticsPage() {
                 <XAxis
                   dataKey="college"
                   tick={{ fontSize: 12, width: 120, wordBreak: "break-all", fill: "#64748b" }}
-                  angle={-35}
+                  angle={-55}
                   textAnchor="end"
                   height={120}
-                  interval={0}
+                  width={120}
+                  // interval={1}
                 />
                 <YAxis tick={{ fill: "#64748b" }} />
                 <Tooltip 
@@ -212,7 +213,7 @@ export function AnalyticsPage() {
               <LineChart data={mockAnalytics.testScoresTrend}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="month" tick={{ fill: "#64748b" }} />
-                <YAxis domain={[0, 34]} tick={{ fill: "#64748b" }} />
+                <YAxis domain={[0, 40]} tick={{ fill: "#64748b" }} />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: '#1e293b', 
@@ -231,7 +232,9 @@ export function AnalyticsPage() {
                   name="Depression"
                   dot={{ fill: "#ef4444", strokeWidth: 2, r: 4 }}
                 />
-                <Line type="monotone" dataKey="stress" stroke="#10b981" strokeWidth={3} name="General Health" dot={{ fill: "#10b981", strokeWidth: 2, r: 4 }} />
+                <Line type="monotone" dataKey="generalHealth" stroke="#10b981" strokeWidth={3} name="General Health" dot={{ fill: "#10b981", strokeWidth: 2, r: 4 }} />
+                <Line type="monotone" dataKey="ocd" stroke="#8b5cf6" strokeWidth={3} name="OCD" dot={{ fill: "#8b5cf6", strokeWidth: 2, r: 4 }} />
+                <Line type="monotone" dataKey="sud" stroke="#06b6d4" strokeWidth={3} name="SUD" dot={{ fill: "#06b6d4", strokeWidth: 2, r: 4 }} />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
@@ -348,7 +351,7 @@ export function AnalyticsPage() {
               </div>
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Wellness scores show <span className="font-semibold text-blue-600 dark:text-blue-400">20% improvement</span> over 5 months, 
-                with stress levels decreasing significantly across all demographics.
+                with anxiety, depression, OCD, and SUD levels decreasing significantly across all demographics.
               </p>
             </div>
             
