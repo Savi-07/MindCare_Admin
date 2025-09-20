@@ -291,7 +291,7 @@ export function CollegeDashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-purple-500 hover:shadow-lg transition-all duration-200">
+        {/* <Card className="border-l-4 border-l-purple-500 hover:shadow-lg transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-300">
               Avg Wellness Score
@@ -312,7 +312,7 @@ export function CollegeDashboardPage() {
               from last month
             </p>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
 
       {/* Quick Highlights */}

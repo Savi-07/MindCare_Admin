@@ -4,7 +4,7 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, Clock, TrendingUp, Heart } from "lucide-react";
-import { mockAnalytics } from "@/lib/mock-data";
+import { mockAnalytics, mockUsers, mockCounsellingQueue } from "@/lib/mock-data";
 
 export function CounsellorOverviewPage() {
   const { counsellorStats } = mockAnalytics;
@@ -102,26 +102,7 @@ export function CounsellorOverviewPage() {
             <Badge variant="secondary">Last 7 days</Badge>
           </div>
           <div className="space-y-3">
-            {[
-              {
-                id: "STU001",
-                name: "Student 001",
-                lastSession: "2 days ago",
-                improvement: "+12%",
-              },
-              {
-                id: "STU002",
-                name: "Student 002",
-                lastSession: "3 days ago",
-                improvement: "+8%",
-              },
-              {
-                id: "STU003",
-                name: "Student 003",
-                lastSession: "5 days ago",
-                improvement: "+15%",
-              },
-            ].map((student) => (
+            {mockUsers.slice(0, 3).map((student) => (
               <div
                 key={student.id}
                 className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"
@@ -131,14 +112,14 @@ export function CounsellorOverviewPage() {
                     {student.name}
                   </p>
                   <p className="text-sm text-slate-600 dark:text-slate-400">
-                    Last session: {student.lastSession}
+                    Last session: {student.lastSessionDate ? new Date(student.lastSessionDate).toLocaleDateString() : 'N/A'}
                   </p>
                 </div>
                 <Badge
                   variant="outline"
                   className="text-green-600 border-green-200"
                 >
-                  {student.improvement}
+                  {((student.testScores.anxiety + student.testScores.depression + student.testScores.generalHealth + student.testScores.ocd + student.testScores.sud) % 20) + 1}%
                 </Badge>
               </div>
             ))}
@@ -156,33 +137,14 @@ export function CounsellorOverviewPage() {
             </Badge>
           </div>
           <div className="space-y-3">
-            {[
-              {
-                id: "STU006",
-                reason: "Academic stress",
-                priority: "High",
-                waitTime: "2 hours",
-              },
-              {
-                id: "STU007",
-                reason: "Relationship counseling",
-                priority: "Medium",
-                waitTime: "4 hours",
-              },
-              {
-                id: "STU008",
-                reason: "Career guidance",
-                priority: "Low",
-                waitTime: "6 hours",
-              },
-            ].map((queueItem) => (
+            {mockCounsellingQueue.slice(0, 3).map((queueItem) => (
               <div
                 key={queueItem.id}
                 className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"
               >
                 <div>
                   <p className="font-medium text-slate-900 dark:text-white">
-                    {queueItem.id}
+                    {queueItem.anonymousId}
                   </p>
                   <p className="text-sm text-slate-600 dark:text-slate-400">
                     {queueItem.reason}
@@ -191,17 +153,17 @@ export function CounsellorOverviewPage() {
                 <div className="text-right">
                   <Badge
                     variant={
-                      queueItem.priority === "High"
+                      queueItem.priority === "high"
                         ? "destructive"
-                        : queueItem.priority === "Medium"
+                        : queueItem.priority === "medium"
                         ? "default"
                         : "secondary"
                     }
                     className="mb-1"
                   >
-                    {queueItem.priority}
+                    {queueItem.priority.charAt(0).toUpperCase() + queueItem.priority.slice(1)}
                   </Badge>
-                  <p className="text-xs text-slate-500">{queueItem.waitTime}</p>
+                  <p className="text-xs text-slate-500">{new Date(queueItem.requestedDate).toLocaleDateString()}</p>
                 </div>
               </div>
             ))}

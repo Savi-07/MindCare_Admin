@@ -1,4 +1,4 @@
- // Mock data for the counseling dashboard prototype
+// Mock data for the counseling dashboard prototype
 
 export interface User {
   id: string;
@@ -33,8 +33,8 @@ export interface Feedback {
 export const mockUsers: User[] = [
   {
     id: "1",
-    name: "Ishi11",
-    email: "ishita@university.edu",
+    name: "user_94bdb42d3df6",
+    email: "user1@heritage.edu",
     college: "Heritage",
     location: "Kolkata",
     isTakingCounseling: true,
@@ -46,8 +46,8 @@ export const mockUsers: User[] = [
   },
   {
     id: "2",
-    name: "Aj07",
-    email: "arjun@university.edu",
+    name: "user_12acde98f4a1",
+    email: "user2@msit.edu",
     college: "Meghnad Saha Institute of Technology",
     location: "Kolkata",
     isTakingCounseling: false,
@@ -58,8 +58,8 @@ export const mockUsers: User[] = [
   },
   {
     id: "3",
-    name: "Prizz",
-    email: "priya@university.edu",
+    name: "user_a17bd4c93e2f",
+    email: "user3@msit.edu",
     college: "Meghnad Saha Institute of Technology",
     location: "Kolkata",
     isTakingCounseling: true,
@@ -71,8 +71,8 @@ export const mockUsers: User[] = [
   },
   {
     id: "4",
-    name: "Viking12",
-    email: "vivek@university.edu",
+    name: "user_c83de29b71af",
+    email: "user4@aec.edu",
     college: "Asansol Engineering College",
     location: "Asansol",
     isTakingCounseling: true,
@@ -84,8 +84,8 @@ export const mockUsers: User[] = [
   },
   {
     id: "5",
-    name: "Adi99",
-    email: "aditya@university.edu",
+    name: "user_f29d8e1a64bc",
+    email: "user5@msit.edu",
     college: "Meghnad Saha Institute of Technology",
     location: "Kolkata",
     isTakingCounseling: false,
@@ -108,10 +108,8 @@ export const mockUsers: User[] = [
   ].flatMap((collegeName, idx) =>
     Array.from({ length: 8 }).map((_, i) => ({
       id: `${idx + 10}-${i + 1}`,
-      name: `User_${collegeName.split(" ")[0]}_${i + 1}`,
-      email: `user${idx}${i}@${collegeName
-        .replace(/\s+/g, "")
-        .toLowerCase()}.edu`,
+      name: `user_${Math.random().toString(36).substring(2, 14)}`,
+      email: `user${idx}${i}@${collegeName.replace(/\s+/g, "").toLowerCase()}.edu`,
       college: collegeName,
       location:
         collegeName === "Meghnad Saha Institute of Technology" ? "Kolkata" : "Delhi",
@@ -123,12 +121,11 @@ export const mockUsers: User[] = [
         : "low") as "low" | "medium" | "high",
       lastSessionDate: "2024-01-1" + ((i % 9) + 1),
       testScores: {
-        // map to appropriate ranges
         anxiety: ((i * 7 + idx * 3) % 22),
         depression: ((i * 5 + idx * 4) % 22),
         generalHealth: ((i * 9 + idx * 2) % 22),
-        ocd: ((i * 11 + idx * 5) % 41), // 0-40 range
-        sud: ((i * 13 + idx * 7) % 28), // 0-27 range
+        ocd: ((i * 11 + idx * 5) % 41),
+        sud: ((i * 13 + idx * 7) % 28),
       },
       yearOfStudy: ((i % 4) + 1),
       branch: ["CSE", "IT", "ECE", "ME"][(i + idx) % 4],
@@ -140,48 +137,43 @@ export const mockFeedback: Feedback[] = [
   {
     id: "1",
     userId: "1",
-    userName: "Rotzz",
+    userName: "user_a1b2c3d4e5f6",
     rating: 5,
-    comments:
-      "The counseling sessions have been incredibly helpful. I feel much more supported.",
+    comments: "The counseling sessions have been incredibly helpful. I feel much more supported.",
     date: "2024-01-15",
     sentiment: "positive",
   },
   {
     id: "2",
     userId: "3",
-    userName: "Kk34",
+    userName: "user_b2c3d4e5f6a7",
     rating: 4,
-    comments:
-      "Good support system, though I wish there were more available time slots.",
+    comments: "Good support system, though I wish there were more available time slots.",
     date: "2024-01-20",
     sentiment: "positive",
   },
   {
     id: "3",
     userId: "4",
-    userName: "Mixxi",
+    userName: "user_c3d4e5f6a7b8",
     rating: 3,
-    comments:
-      "The sessions are okay, but I feel like I need more personalized attention.",
+    comments: "The sessions are okay, but I feel like I need more personalized attention.",
     date: "2024-01-18",
     sentiment: "neutral",
   },
   {
     id: "4",
     userId: "2",
-    userName: "nancy01",
+    userName: "user_d4e5f6a7b8c9",
     rating: 2,
-    comments:
-      "I tried a session but it did not feel like the right fit for me.",
+    comments: "I tried a session but it did not feel like the right fit for me.",
     date: "2024-01-10",
     sentiment: "negative",
   },
-  // Meghnad Saha Institute of Technology feedbacks
   {
     id: "5",
     userId: "2",
-    userName: "Aj07",
+    userName: "user_12acde98f4a1",
     rating: 4,
     comments: "Helpful resources and quick session scheduling for Meghnad Saha Institute of Technology.",
     date: "2024-01-12",
@@ -190,7 +182,7 @@ export const mockFeedback: Feedback[] = [
   {
     id: "6",
     userId: "3",
-    userName: "Prizz",
+    userName: "user_a17bd4c93e2f",
     rating: 5,
     comments: "Great support from counsellors, noticeable improvement.",
     date: "2024-01-21",
@@ -199,7 +191,7 @@ export const mockFeedback: Feedback[] = [
   {
     id: "7",
     userId: "5",
-    userName: "Adi99",
+    userName: "user_f29d8e1a64bc",
     rating: 3,
     comments: "Good, but would prefer more weekend slots.",
     date: "2024-01-16",
@@ -238,7 +230,7 @@ export interface TraitProgress {
 export const mockAnonymousStudents: AnonymousStudent[] = [
   {
     id: "1",
-    anonymousId: "STU001",
+    anonymousId: "user_11aa22bb33cc",
     yearOfStudy: 2,
     traits: ["Anxiety", "Stress Management"],
     lastSessionDate: "2024-01-15",
@@ -247,7 +239,7 @@ export const mockAnonymousStudents: AnonymousStudent[] = [
   },
   {
     id: "2",
-    anonymousId: "STU002",
+    anonymousId: "user_22bb33cc44dd",
     yearOfStudy: 3,
     traits: ["Depression", "Academic Pressure"],
     lastSessionDate: "2024-01-20",
@@ -256,7 +248,7 @@ export const mockAnonymousStudents: AnonymousStudent[] = [
   },
   {
     id: "3",
-    anonymousId: "STU003",
+    anonymousId: "user_33cc44dd55ee",
     yearOfStudy: 1,
     traits: ["Social Anxiety", "Time Management"],
     lastSessionDate: "2024-01-18",
@@ -265,7 +257,7 @@ export const mockAnonymousStudents: AnonymousStudent[] = [
   },
   {
     id: "4",
-    anonymousId: "STU004",
+    anonymousId: "user_44dd55ee66ff",
     yearOfStudy: 4,
     traits: ["Career Anxiety", "Relationship Issues"],
     lastSessionDate: "2024-01-22",
@@ -274,7 +266,7 @@ export const mockAnonymousStudents: AnonymousStudent[] = [
   },
   {
     id: "5",
-    anonymousId: "STU005",
+    anonymousId: "user_55ee66ff77gg",
     yearOfStudy: 2,
     traits: ["Sleep Issues", "Motivation"],
     lastSessionDate: "2024-01-19",
@@ -287,7 +279,7 @@ export const mockCounsellingQueue: CounsellingQueue[] = [
   {
     id: "1",
     queueNo: 1,
-    anonymousId: "STU006",
+    anonymousId: "user_66ff77gg88hh",
     reason: "Academic stress",
     requestedDate: "2024-01-23",
     priority: "high",
@@ -295,7 +287,7 @@ export const mockCounsellingQueue: CounsellingQueue[] = [
   {
     id: "2",
     queueNo: 2,
-    anonymousId: "STU007",
+    anonymousId: "user_77gg88hh99ii",
     reason: "Relationship counseling",
     requestedDate: "2024-01-23",
     priority: "medium",
@@ -303,7 +295,7 @@ export const mockCounsellingQueue: CounsellingQueue[] = [
   {
     id: "3",
     queueNo: 3,
-    anonymousId: "STU008",
+    anonymousId: "user_88hh99ii00jj",
     reason: "Career guidance",
     requestedDate: "2024-01-24",
     priority: "low",
@@ -311,7 +303,7 @@ export const mockCounsellingQueue: CounsellingQueue[] = [
   {
     id: "4",
     queueNo: 4,
-    anonymousId: "STU009",
+    anonymousId: "user_99ii00jj11kk",
     reason: "Anxiety management",
     requestedDate: "2024-01-24",
     priority: "high",
@@ -320,7 +312,7 @@ export const mockCounsellingQueue: CounsellingQueue[] = [
 
 export const mockTraitProgress: TraitProgress[] = [
   {
-    studentId: "STU001",
+    studentId: "user_11aa22bb33cc",
     trait: "Anxiety",
     year1: 8,
     year2: 6,
@@ -328,7 +320,7 @@ export const mockTraitProgress: TraitProgress[] = [
     year4: 3,
   },
   {
-    studentId: "STU001",
+    studentId: "user_11aa22bb33cc",
     trait: "Stress Management",
     year1: 7,
     year2: 5,
@@ -336,7 +328,7 @@ export const mockTraitProgress: TraitProgress[] = [
     year4: 2,
   },
   {
-    studentId: "STU002",
+    studentId: "user_22bb33cc44dd",
     trait: "Depression",
     year1: 9,
     year2: 7,
@@ -344,7 +336,7 @@ export const mockTraitProgress: TraitProgress[] = [
     year4: 4,
   },
   {
-    studentId: "STU002",
+    studentId: "user_22bb33cc44dd",
     trait: "Academic Pressure",
     year1: 8,
     year2: 6,
@@ -352,7 +344,7 @@ export const mockTraitProgress: TraitProgress[] = [
     year4: 3,
   },
   {
-    studentId: "STU003",
+    studentId: "user_33cc44dd55ee",
     trait: "Social Anxiety",
     year1: 9,
     year2: 7,
@@ -360,7 +352,7 @@ export const mockTraitProgress: TraitProgress[] = [
     year4: 3,
   },
   {
-    studentId: "STU003",
+    studentId: "user_33cc44dd55ee",
     trait: "Time Management",
     year1: 8,
     year2: 6,
@@ -368,7 +360,7 @@ export const mockTraitProgress: TraitProgress[] = [
     year4: 2,
   },
   {
-    studentId: "STU004",
+    studentId: "user_44dd55ee66ff",
     trait: "Career Anxiety",
     year1: 7,
     year2: 5,
@@ -376,7 +368,7 @@ export const mockTraitProgress: TraitProgress[] = [
     year4: 2,
   },
   {
-    studentId: "STU004",
+    studentId: "user_44dd55ee66ff",
     trait: "Relationship Issues",
     year1: 6,
     year2: 4,
@@ -384,7 +376,7 @@ export const mockTraitProgress: TraitProgress[] = [
     year4: 1,
   },
   {
-    studentId: "STU005",
+    studentId: "user_55ee66ff77gg",
     trait: "Sleep Issues",
     year1: 8,
     year2: 6,
@@ -392,7 +384,7 @@ export const mockTraitProgress: TraitProgress[] = [
     year4: 3,
   },
   {
-    studentId: "STU005",
+    studentId: "user_55ee66ff77gg",
     trait: "Motivation",
     year1: 7,
     year2: 5,
@@ -428,8 +420,8 @@ export const mockAnalytics = {
       users: 11, // 8 generated + 3 individual users
       counseling: 6, // 4 generated + 2 individual users
     },
-    { college: "Heritage", users: 9, counseling: 5 }, // 8 generated + 1 individual user
-    { college: "Asansol Engineering College", users: 9, counseling: 5 }, // 8 generated + 1 individual user
+    { college: "Heritage", users: 9, counseling: 5 }, 
+    { college: "Asansol Engineering College", users: 9, counseling: 5 }, 
   ],
   usersByLocation: [
     { location: "Kolkata", users: 65 },
@@ -451,7 +443,6 @@ export const mockAnalytics = {
     { month: "Dec", cases: 4 },
     { month: "Jan", cases: 3 },
   ],
-  // Counsellor-specific analytics
   counsellorStats: {
     totalSessions: 35,
     scheduledSessions: 23,
@@ -480,13 +471,13 @@ export const mockAnalytics = {
 };
 
 export const mockAggregates = {
-  // Weekday (0=Sun..6=Sat) x hour (0..23) request counts
   requestsByWeekdayHour: Array.from({ length: 7 }).map((_, d) =>
     Array.from({ length: 24 }).map((_, h) => ((d + 2) * (h % 6) + (h > 8 && h < 18 ? 6 : 2)) % 20)
   ),
   resourceUptake: [
-    { resource: "Workshops", recommended: 120, attended: 78 },
-    { resource: "Helpline", recommended: 85, attended: 52 },
-    { resource: "Self-help Modules", recommended: 140, attended: 96 },
+    { resource: "Understanding Anxiety: A Student's Guide", recommended: 120, attended: 78 },
+    { resource: "Mindfulness Meditation for Beginners", recommended: 85, attended: 52 },
+    { resource: "শিক্ষার্থীদের জন্য মানসিক স্বাস্থ্য", recommended: 140, attended: 96 },
   ],
-};
+
+}
